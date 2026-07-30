@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #2D5A27;
+    --color-secondary: #FDFBF7;
+    --color-tertiary: #7C3A55;
+    --color-neutral: #757872;
+    --color-backgroundPrimary: #F9FAF2;
+    --color-button: #ebf5ff;
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  @apply hidden
+}
+
+.styled-scrollbar::-webkit-scrollbar {
+  @apply w-2 rounded-full
+}
+
+/* .styled-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-purple/20 rounded-full
+} */
+
+input[type="number"]::-webkit-inner-spin-button {
+  @apply hidden
+}
