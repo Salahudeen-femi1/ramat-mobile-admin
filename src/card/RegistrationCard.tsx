@@ -9,20 +9,20 @@ export default function RegistrationCard({
   customer,
 }: Props) {
   return (
-    <div className="flex justify-between items-center py-4 border-b last:border-none">
+    <div className="flex justify-between items-center py-4 border-b border-gray-100 last:border-none">
 
       <div className="flex gap-4 items-center">
 
-        <div className="w-11 h-11 rounded-full bg-green-700 text-white flex items-center justify-center font-semibold">
+        <div className="w-11 h-11 rounded-full bg-green-700 text-white flex items-center justify-center font-medium">
           {customer.initials}
         </div>
 
         <div>
-          <h3 className="font-semibold">
+          <h3 className="font-medium">
             {customer.name}
           </h3>
 
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 text-xs">
             Joined {customer.joined}
           </p>
         </div>

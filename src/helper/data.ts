@@ -1,7 +1,7 @@
 import type { OrderProps } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
-import { IoReceiptOutline } from "react-icons/io5";
+// import { IoReceiptOutline } from "react-icons/io5";
 
 interface dataProps {
     label: string;
@@ -63,15 +63,6 @@ export const recentOrders: OrderProps[] = [
         status: "Processing",
         time: "5m ago"
     },
-
-    {
-        id: "ORD-2847",
-        icon: IoReceiptOutline,
-        items: 1,
-        source: "Pickup",
-        status: "Pending",
-        time: "12m ago"
-    }
 ];
 
 export const reviews = [

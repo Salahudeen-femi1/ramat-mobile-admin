@@ -35,7 +35,7 @@ export default function OrderCard({ order }: Props) {
           {order.status}
         </span>
 
-        <p className="text-gray-500 text-sm mt-2">
+        <p className="text-gray-500 text-xs mt-2">
           {order.time}
         </p>
       </div>

@@ -35,6 +35,7 @@ const renderActiveShape = ({
   const textAnchor = cos >= 0 ? 'start' : 'end';
 
   return (
+    // <div></div>
     <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
         {payload.name}
@@ -75,29 +76,31 @@ export default function StatusDistribution({
   defaultIndex?: TooltipIndex;
 }) {
   return (
-    <PieChart
-      style={{ width: '100%', maxWidth: '500px', maxHeight: '80vh', aspectRatio: 1 }}
-      responsive
-      margin={{
-        top: 50,
-        right: 120,
-        bottom: 0,
-        left: 120,
-      }}
-    >
-      <Pie
-        activeShape={renderActiveShape}
-        data={data}
-        cx="50%"
-        cy="50%"
-        innerRadius="60%"
-        outerRadius="80%"
-        fill="#8884d8"
-        dataKey="value"
-        isAnimationActive={isAnimationActive}
-      />
-      <Tooltip content={() => null} defaultIndex={defaultIndex} />
-      {/* <RechartsDevtools /> */}
-    </PieChart>
-  );
+    <div className='bg-white border border-gray-100 rounded-lg '>
+      <PieChart
+        style={{ width: '100%', maxWidth: '300px', maxHeight: '100vh', aspectRatio: 1 }}
+        responsive
+        margin={{
+          top: 50,
+          right: 120,
+          bottom: 0,
+          left: 120,
+        }}
+      >
+        <Pie
+          activeShape={renderActiveShape}
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius="60%"
+          outerRadius="80%"
+          fill="#8884d8"
+          dataKey="value"
+          isAnimationActive={isAnimationActive}
+        />
+        <Tooltip content={() => null} defaultIndex={defaultIndex} />
+        {/* <RechartsDevtools /> */}
+      </PieChart>
+    </div>
+    );
 }
