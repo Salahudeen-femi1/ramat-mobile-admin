@@ -1,6 +1,7 @@
-import type { OrderProps } from "./types";
+import type { MenuItem, OrderProps } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
+import { assets } from "../assets/assets";
 // import { IoReceiptOutline } from "react-icons/io5";
 
 interface dataProps {
@@ -63,6 +64,35 @@ export const recentOrders: OrderProps[] = [
         status: "Processing",
         time: "5m ago"
     },
+];
+
+export const menuItems: MenuItem[] = [
+  {
+    id: "1",
+    name: "Truffle Wild Mushroom",
+    category: "Pizza",
+    image: assets.parfait,
+    price: 28,
+    featured: true,
+    available: true,
+  },
+  {
+    id: "2",
+    name: "Saffron Seafood Risotto",
+    category: "Rice",
+    image: "/images/risotto.jpg",
+    price: 34,
+    available: true,
+  },
+  {
+    id: "3",
+    name: "Valrhona Lava Cake",
+    category: "Dessert",
+    image: "/images/cake.jpg",
+    price: 18,
+    soldOut: true,
+    available: false,
+  },
 ];
 
 export const reviews = [

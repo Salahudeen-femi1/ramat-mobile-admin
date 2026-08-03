@@ -60,3 +60,14 @@ export interface PaginationControlProps {
   setItemsPerPage: React.Dispatch<React.SetStateAction<number>>;
   tableType?: string;
 }
+
+export interface MenuItem {
+  id: string;
+  name: string;
+  category: string;
+  image: string;
+  price: number;
+  featured?: boolean;
+  available: boolean;
+  soldOut?: boolean;
+}
