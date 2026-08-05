@@ -7,17 +7,33 @@ import { CalendarRange } from "lucide-react";
 import { MdOutlineTimer } from "react-icons/md";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { RiFileList3Line } from "react-icons/ri";
+import type { orderData } from "../helper/types";
+import { useNavigate } from "react-router-dom";
 
 export default function Orders() {
+
+  const navigate = useNavigate();
 
   const [viewModal, setViewModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [selectedOrder, setSelectedOrder] = React.useState<any>(null);
 
+  const handleView = (order_no: string) => {
+    navigate(`/dashboard/order/view/${order_no}`);
+  };
+
+  const handleEdit = (id: number) => {
+    navigate(`/dashboard/order/edit/${id}`);
+  };
+
   const columns = [
     {
       label: "ORDER NO.",
       key: "order_no"
+    },
+    {
+      label: "CODE",
+      key: "code"
     },
     {
       label: "Customer",
@@ -63,7 +79,8 @@ export default function Orders() {
       render: (item: any) => (
         <ActionCell
           rowId={Number(item.id)}
-          onView={() => setViewModal(true)}
+          onView={handleView}
+          onEdit={handleEdit}
           onDelete={() => setDeleteModal(true)}
           toggleAction={() => setSelectedOrder(item)}
         />
@@ -71,7 +88,7 @@ export default function Orders() {
     },
   ];
 
-  const data = [
+  const data: orderData[] = [
     {
       order_no: "#ORD-1284",
       code: "k72",
@@ -92,7 +109,7 @@ export default function Orders() {
       amount: "$ 20.00",
       status: "cancelled",
       time: '1942',
-      payment: "faild"
+      payment: "failed"
     },
     {
       order_no: "#ORD-1284",

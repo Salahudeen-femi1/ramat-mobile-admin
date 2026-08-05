@@ -9,6 +9,8 @@ import icecream from './images/icecream.png'
 import hollandia from './images/hollandia.jpeg'
 import emptybox from './images/emptybox.png'
 import coke from './images/coke.jpeg'
+import fufu from './images/fufu.jpeg'
+import jollof from './images/jollof.png'
 
 export const assets = {
     image,
@@ -21,5 +23,7 @@ export const assets = {
     icecream,
     hollandia,
     emptybox,
+    jollof,
+    fufu,
     coke
 }

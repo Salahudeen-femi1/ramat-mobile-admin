@@ -1,4 +1,4 @@
-import type { MenuItem, OrderProps } from "./types";
+import type { Customer, MenuItem, OrderProps, Payment } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
 import { assets } from "../assets/assets";
@@ -69,26 +69,71 @@ export const recentOrders: OrderProps[] = [
 export const menuItems: MenuItem[] = [
   {
     id: "1",
-    name: "Truffle Wild Mushroom",
-    category: "Pizza",
-    image: assets.parfait,
+    name: "Jollof Rice",
+    category: "rice",
+    image: assets.jollof,
     price: 28,
     featured: true,
     available: true,
   },
   {
     id: "2",
-    name: "Saffron Seafood Risotto",
+    name: "Chips & Chicken",
     category: "Rice",
-    image: "/images/risotto.jpg",
+    image: assets.chips,
     price: 34,
     available: true,
   },
   {
     id: "3",
-    name: "Valrhona Lava Cake",
-    category: "Dessert",
-    image: "/images/cake.jpg",
+    name: "Parfait",
+    category: "parfait",
+    image: assets.parfait,
+    price: 18,
+    soldOut: true,
+    available: false,
+  },
+  {
+    id: "4",
+    name: "Semo",
+    category: "okele",
+    image: assets.semo,
+    price: 18,
+    soldOut: true,
+    available: false,
+  },
+  {
+    id: "5",
+    name: "Shawarma",
+    category: "shawarma",
+    image: assets.shawarma,
+    price: 18,
+    soldOut: true,
+    available: false,
+  },
+  {
+    id: "6",
+    name: "Ice Cream",
+    category: "Ice cream",
+    image: assets.icecream,
+    price: 18,
+    soldOut: true,
+    available: false,
+  },
+  {
+    id: "7",
+    name: "Smoothies",
+    category: "Smoothies",
+    image: assets.smoothies,
+    price: 18,
+    soldOut: true,
+    available: false,
+  },
+  {
+    id: "8",
+    name: "Hollandia",
+    category: "driks",
+    image: assets.hollandia,
     price: 18,
     soldOut: true,
     available: false,
@@ -112,6 +157,39 @@ export const reviews = [
             "Great presentation on the sea bass. The wine pairing was spot on."
     }
 ];
+
+export const orderItems = [
+    {
+        id: 1,
+        label: 'Jollof Rice',
+        quantity: 2,
+        price: 2800,
+        image: assets.jollof,
+        status: "paid"
+    },
+    {
+        id: 2,
+        label: 'Jollof Rice',
+        quantity: 2,
+        price: 2800,
+        image: assets.jollof,
+        status: "paid"
+    },
+]
+
+export const customer: Customer = {
+  name: "Eleanor Vance",
+  email: "e.vance@corporate.com",
+  phone: "+1 (555) 019-2234",
+  image: "/images/avatar.png",
+};
+
+export const payment: Payment = {
+  method: "Mastercard",
+  cardNumber: "•••• 9921",
+  reference: "#CHG_882931",
+  status: "Paid",
+};
 
 export const registrations = [
     {

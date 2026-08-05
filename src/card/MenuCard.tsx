@@ -5,11 +5,11 @@ import Switch from "../component/Switch";
 
 interface Props {
     item: MenuItem;
+    onToggleAvailability?: (available: boolean) => void;
 }
 
-export default function MenuCard({ item }: Props) {
-
-    const [soldOut, setSoldOut] = React.useState(false)
+export default function MenuCard({ item, onToggleAvailability }: Props) {
+    const soldOut = item.soldOut || !item.available;
 
     return (
         <div className="bg-white rounded-lg overflow-hidden border border-gray-300 w-[250px]">
@@ -29,7 +29,7 @@ export default function MenuCard({ item }: Props) {
                     </span>
                 )}
 
-                { soldOut && (
+                {soldOut && (
                     <>
                         <div className="absolute inset-0 bg-black/40" />
 
@@ -66,7 +66,7 @@ export default function MenuCard({ item }: Props) {
                         <Switch
                             checked={item.available}
                             onCheckedChange={(checked) => {
-                                console.log(checked);
+                                onToggleAvailability?.(checked);
                             }}
                         />
                         <span className="text-neutral-600">

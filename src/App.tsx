@@ -10,6 +10,7 @@ import Payment from './pages/Payment'
 import Review from './pages/Review'
 import Notification from './pages/Notification'
 import Settings from './pages/Settings'
+import ViewMenu from './pages/ViewMenu'
 
 function App() {
 
@@ -38,11 +39,29 @@ function App() {
           }
         />
         <Route
-          path='/dashboard/orders'
+          path='/dashboard/order'
           element={
             <MainLayout
               child={<Orders />}
               heading='Orders'
+            />
+          }
+        />
+        <Route
+          path='/dashboard/order/view/:order_no'
+          element={
+            <MainLayout
+              child={<ViewMenu />}
+              heading='Orders'
+            />
+          }
+        />
+        <Route
+          path='/dashboard/order/edit/:id'
+          element={
+            <MainLayout
+              child={<ViewMenu />}
+              heading='Edit Order'
             />
           }
         />

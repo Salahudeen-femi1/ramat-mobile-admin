@@ -23,7 +23,7 @@ const LeftNav: React.FC<LeftNavProps> = ({ setIsExpanded }) => {
     },
     {
       name: "Orders",
-      path: "/dashboard/orders",
+      path: "/dashboard/order",
       icon: <BsFileEarmarkMedicalFill />,
     },
     {

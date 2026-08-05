@@ -3,6 +3,7 @@
 
 @theme {
   --color-primary: #2D5A27;
+  --color-fadedPrimary: #F0F3FF;
   --color-secondary: #FDFBF7;
   --color-tertiary: #7C3A55;
   --color-neutral: #757872;
@@ -35,6 +36,9 @@ body,
 
 .styled-scrollbar::-webkit-scrollbar {
   @apply w-1 rounded-full
+}
+.styled-scroll::-webkit-scrollbar {
+  @apply h-1 rounded-full
 }
 
 .styled-scrollbar::-webkit-scrollbar-thumb {
