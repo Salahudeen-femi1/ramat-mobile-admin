@@ -1,7 +1,11 @@
-import type { Customer, MenuItem, OrderProps, Payment } from "./types";
+import type { Customer, MenuItem, OrderProps, Payment, PaymentProps } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
 import { assets } from "../assets/assets";
+import { CiBank } from "react-icons/ci";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { HiMiniReceiptRefund } from "react-icons/hi2";
 // import { IoReceiptOutline } from "react-icons/io5";
 
 interface dataProps {
@@ -190,6 +194,37 @@ export const payment: Payment = {
   reference: "#CHG_882931",
   status: "Paid",
 };
+
+export const paymentStats: PaymentProps[] = [
+    {
+      label: "Total Revenue",
+      value: "124,529.00",
+      period: "vs last month",
+      change: 12.5,
+      icon: CiBank 
+    },
+    {
+      label: "Today's Earning",
+      value: "124,529.00",
+      period: "vs yesterday",
+      change: -8.5,
+      icon: FaRegMoneyBillAlt 
+    },
+    {
+      label: "Pending Settlement",
+      value: "124,529.00",
+      period: "vs last month",
+      change: 16.5,
+      icon: MdOutlinePendingActions
+    },
+    {
+      label: "Refunds",
+      value: "124,529.00",
+      period: "vs refund rate",
+      change: -12.5,
+      icon: HiMiniReceiptRefund
+    },
+  ]
 
 export const registrations = [
     {

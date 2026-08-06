@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { IconType } from "react-icons/lib";
 
 export interface OrderProps {
@@ -115,4 +116,12 @@ export interface orderedItem {
   label: string;
   status: string;
   quantity: number | string;
+}
+
+export interface PaymentProps {
+  label: string;
+  value: string;
+  period: string;
+  change: number;
+  icon: IconType;
 }
