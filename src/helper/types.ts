@@ -88,6 +88,27 @@ export interface orderData {
   payment: "paid" | "pending" | "failed";
 }
 
+export type Review = {
+  id: number;
+  name: string;
+  avatar: string;
+  time: string;
+  rating: number;
+  text: string;
+  item: string;
+  replied: boolean;
+  reply?: string;
+  replyTime?: string;
+  isNew?: boolean;
+};
+
+export type TopItem = {
+  id: number;
+  name: string;
+  rating: number;
+  reviews: number;
+};
+
 export interface PaginationControlProps {
   currentPage: number;
   totalPages: number;

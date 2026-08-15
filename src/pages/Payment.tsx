@@ -3,55 +3,63 @@ import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 import ReusableTable from '../utility/ReusableTable';
 import { paymentStats } from '../helper/data';
 import ActionCell from '../utility/ActionCell';
+import React from 'react';
+import { CiSearch } from 'react-icons/ci';
+
+interface Payment {
+  Tranaction_id: string;
+  date: string;
+  order_id: string;
+  amount: string;
+  payment_method: string;
+  status: "success" | "pending" | "failed"
+  customer: string;
+}
 
 export default function Payment() {
 
+  const [selectedOrder, setSelectedOrder] = React.useState(false)
+  const [deleteModal, setDeleteModal] = React.useState(false)
+  const [dateRange, setDateRange] = React.useState("last_ seven_days")
+  const [methodFilter, setMethodFilter] = React.useState("")
+  const [statusFilter, setStatusFilter] = React.useState("")
+
+  const paymentMethods = ['Smart card', 'Credit Card', 'Wallet', 'Bank transfer']
+  const paymentStatuses = ['success', 'pending', 'failed']
+
+  const handleView = () => {
+    setSelectedOrder(true)
+  }
+
   const columns = [
     {
-      label: "ORDER NO.",
-      key: "order_no"
+      label: "TRANSACTION ID",
+      key: "transaction_id"
     },
     {
-      label: "CODE",
-      key: "code"
+      label: "ORDER ID",
+      key: "order_id"
     },
     {
       label: "Customer",
       key: "customer"
     },
     {
-      label: "ITEM ORDERED",
-      key: "item_ordered"
-    },
-    {
-      label: "QTY",
-      key: "quantity"
-    },
-    {
       label: "AMOUNT",
       key: "amount"
+    },
+    {
+      label: "METHOD",
+      key: "method"
     },
     {
       label: "STATUS",
       key: "status",
       render: (item: any) => (
-        <span className={`px-3 py-1 rounded-xl font-medium ${item.status === "cancelled" ? "bg-red-100 text-red-500" : item.status === "recieved" ? "bg-blue-100 text-blue-500" : item.status === "ready" ? "bg-green-100 text-green-500" : item.status === "completed" ? "bg-gray-100 text-black" : item.status === "preparing" ? "bg-orange-100 text-orange-500" : "bg-gray-100 text-black"}`}>
+        <span className={`px-3 py-1 rounded-xl font-medium ${item.status === "failed" ? "bg-red-100 text-red-500" : item.status === "success" ? "bg-green-100 text-green-500" : item.status === "pending" ? "bg-orange-100 text-orange-500" : "bg-gray-100 text-black"}`}>
           {item.status}
         </span>
       )
-    },
-    {
-      label: "PAYMENT",
-      key: "payment",
-      render: (item: any) => (
-        <span className={`px-3 py-1 rounded-xl font-medium ${item.payment === "failed" ? "bg-red-100 text-red-500" : item.payment === "pending" ? "bg-blue-100 text-blue-500" : item.payment === "paid" ? "bg-green-100 text-green-500" : "bg-gray-100 text-black"}`}>
-          {item.payment}
-        </span>
-      )
-    },
-    {
-      label: "TIME",
-      key: "time"
     },
     {
       label: "Action",
@@ -60,7 +68,6 @@ export default function Payment() {
         <ActionCell
           rowId={Number(item.id)}
           onView={handleView}
-          onEdit={handleEdit}
           onDelete={() => setDeleteModal(true)}
           toggleAction={() => setSelectedOrder(item)}
         />
@@ -68,62 +75,36 @@ export default function Payment() {
     },
   ];
 
-  const data: orderData[] = [
+  const data: Payment[] = [
     {
-      order_no: "#ORD-1284",
-      code: "k72",
+      Tranaction_id: "TRX-9921",
+      date: "OCT 25, 10:20",
+      order_id: "#ORD-1284",
       customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "recieved",
-      time: '1942',
-      payment: "paid"
+      amount: "200",
+      status: "success",
+      payment_method: "Smart card"
     },
     {
-      order_no: "#ORD-1284",
-      code: "k72",
+      Tranaction_id: "TRX-9921",
+      date: "OCT 25, 10:20",
+      order_id: "#ORD-1284",
       customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "cancelled",
-      time: '1942',
-      payment: "failed"
+      amount: "200",
+      status: "pending",
+      payment_method: "Smart card"
     },
     {
-      order_no: "#ORD-1284",
-      code: "k72",
+      Tranaction_id: "TRX-9921",
+      date: "OCT 25, 10:20",
+      order_id: "#ORD-1284",
       customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "completed",
-      time: '1942',
-      payment: "pending"
+      amount: "200",
+      status: "fai",
+      payment_method: "Smart card"
     },
-    {
-      order_no: "#ORD-1284",
-      code: "k72",
-      customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "preparing",
-      time: '1942',
-      payment: "paid"
-    },
-    {
-      order_no: "#ORD-1284",
-      code: "k72",
-      customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "ready",
-      time: '1942',
-      payment: "failed"
-    },
+
+
   ]
 
   return (
@@ -177,17 +158,56 @@ export default function Payment() {
         })}
       </div>
 
+
       <div className="mt-10 bg-white border border-gray-300 rounded-lg py-4 ">
-        <div className=" flex gap-4 justify-end px-4">
+
+        <div className='flex justify-between items-center px-4'>
+          <div className="flex flex-wrap gap-4 mb-4">
+
+            <select
+              value={dateRange}
+              onChange={(e) => setDateRange(e.target.value)}
+              className="border border-gray-300 rounded-lg bg-white px-3 py-2 text-xs text-gray-600"
+            >
+              <option value="last_seven_days">Last 7 days</option>
+              <option value="last_one_month">Last 1 month</option>
+              <option value="last_two_months">Last 2 months</option>
+            </select>
+
+            <select
+              value={methodFilter}
+              onChange={(e) => setMethodFilter(e.target.value)}
+              className="border border-gray-300 rounded-lg bg-white px-3 py-2 text-xs text-gray-600"
+            >
+              <option value="">All methods</option>
+              {paymentMethods.map((method) => (
+                <option key={method} value={method}>
+                  {method}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="border border-gray-300 rounded-lg bg-white px-3 py-2 text-xs text-gray-600"
+            >
+              <option value="">All status</option>
+              {paymentStatuses.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <span className="flex gap-3 items-center mb-4 border border-gray-300 rounded-lg bg-white px-3 py-2 cursor-pointer">
-            <IoFilter size={18} className="text-gray-500" />
-            <input type="text" placeholder="Search orders status..." className="placeholder:text-xs outline-none text-xs" />
+            <CiSearch size={18} className="text-gray-500" />
+            <input type="text" placeholder="Search ID, Name.." className="placeholder:text-xs outline-none text-xs" />
           </span>
-          <span className="flex gap-3 items-center mb-4 border border-gray-300 rounded-lg bg-white px-3 py-2 cursor-pointer">
-            <CalendarRange size={18} className="text-gray-500" />
-            <input type="text" placeholder="Search status using date..." className="placeholder:text-xs outline-none text-xs" />
-          </span>
+
         </div>
+
         <ReusableTable
           isLoading={false}
           error={null}

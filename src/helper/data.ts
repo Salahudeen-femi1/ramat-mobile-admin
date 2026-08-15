@@ -1,4 +1,4 @@
-import type { Customer, MenuItem, OrderProps, Payment, PaymentProps } from "./types";
+import type { Customer, MenuItem, OrderProps, Payment, PaymentProps, Review, TopItem } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
 import { assets } from "../assets/assets";
@@ -240,4 +240,62 @@ export const registrations = [
         name: "David Lin",
         joined: "1h ago"
     }
+];
+
+export const initialReviews: Review[] = [
+  {
+    id: 1,
+    name: "Sarah Jenkins",
+    avatar: "https://i.pravatar.cc/100?img=47",
+    time: "2 hours ago",
+    rating: 5,
+    text: "Absolutely phenomenal experience. The burger was cooked to perfection, and the truffle mayo was out of this world! Service was incredibly fast despite the busy Friday night. Will definitely be coming back!",
+    item: "Wagyu Truffle Burger",
+    replied: false,
+    isNew: true,
+  },
+  {
+    id: 2,
+    name: "David Chen",
+    avatar: "https://i.pravatar.cc/100?img=12",
+    time: "Yesterday",
+    rating: 4,
+    text: "The matcha was decent, but it took nearly 20 minutes to get it, and the cafe wasn't even that full. A bit disappointing with this speed of service.",
+    item: "Emerald Matcha Latte",
+    replied: true,
+    reply:
+      "Hi David, we're sorry about the delay you experienced. We'll work on improving our service speed.",
+    replyTime: "22 hours ago",
+  },
+  {
+    id: 3,
+    name: "Michael Brown",
+    avatar: "https://i.pravatar.cc/100?img=11",
+    time: "2 days ago",
+    rating: 3,
+    text: "The food was good overall, but I expected a little more for the price. The atmosphere was great though.",
+    item: "Crispy Calamari",
+    replied: false,
+  },
+];
+
+export const topItems: TopItem[] = [
+  {
+    id: 1,
+    name: "Wagyu Truffle Burger",
+    rating: 4.92,
+    reviews: 142,
+  },
+  {
+    id: 2,
+    name: "Crispy Calamari",
+    rating: 4.88,
+    reviews: 96,
+  },
+  {
+    id: 3,
+    name: "Emerald Matcha Latte",
+    rating: 4.79,
+    reviews: 210,
+  },
 ];
