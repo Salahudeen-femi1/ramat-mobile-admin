@@ -1,4 +1,4 @@
-import type { Customer, MenuItem, OrderProps, Payment, PaymentProps, Review, TopItem } from "./types";
+import type { BusinessDay, Customer, MenuItem, OrderProps, Payment, PaymentProps, Review, StoreForm, TopItem } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
 import { assets } from "../assets/assets";
@@ -240,6 +240,51 @@ export const registrations = [
         name: "David Lin",
         joined: "1h ago"
     }
+];
+
+export const initialForm: StoreForm = {
+  restaurantName: "Emerald Grill",
+  contactEmail: "age2@emeraldgrill.com",
+  phone: "+1 (555) 221-4567",
+  address: "812 Emerald Heights Dr,\nSuite 104,\nSan Francisco, CA 94105",
+
+  coverImage:
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
+
+  logo: "",
+
+  currency: "USD ($)",
+  timezone: "(GMT-08:00) Pacific",
+  taxId: "TX-90812-FF-00",
+
+  facebook: "facebook.com/emeraldgrill",
+  instagram: "instagram.com/emeraldgrill",
+  youtube: "youtube.com/EmeraldGrillExperience",
+
+  pickupTime: "15",
+  deliveryTime: "25",
+
+  autoAcceptOrders: true,
+  maintenanceMode: false,
+  maintenanceMessage:
+    "Please check back shortly. We are currently performing maintenance.",
+};
+
+export const initialBusinessDays: BusinessDay[] = [
+  {
+    id: "mon-fri",
+    label: "Mon - Fri",
+    enabled: true,
+    open: "08:00 AM",
+    close: "10:00 PM",
+  },
+  {
+    id: "sat-sun",
+    label: "Sat - Sun",
+    enabled: true,
+    open: "10:00 AM",
+    close: "11:00 PM",
+  },
 ];
 
 export const initialReviews: Review[] = [

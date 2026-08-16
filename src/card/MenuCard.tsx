@@ -50,7 +50,7 @@ export default function MenuCard({ item, onToggleAvailability }: Props) {
                         {item.name}
                     </h2>
 
-                    <p className="text-green-700 font-bold text-lg whitespace-nowrap">
+                    <p className="text-green-700 font-medium text-[15px] whitespace-nowrap">
                         ${item.price.toFixed(2)}
                     </p>
 

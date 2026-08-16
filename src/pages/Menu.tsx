@@ -39,7 +39,7 @@ export default function Menu() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mt-10 ">
         {items.map((item) => (
           <MenuCard
             key={item.id}

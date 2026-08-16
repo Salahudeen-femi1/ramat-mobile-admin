@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import type { IconType } from "react-icons/lib";
 
 export interface OrderProps {
@@ -146,3 +145,36 @@ export interface PaymentProps {
   change: number;
   icon: IconType;
 }
+
+export type BusinessDay = {
+  id: string;
+  label: string;
+  enabled: boolean;
+  open: string;
+  close: string;
+};
+
+export type StoreForm = {
+  restaurantName: string;
+  contactEmail: string;
+  phone: string;
+  address: string;
+
+  coverImage: string;
+  logo: string;
+
+  currency: string;
+  timezone: string;
+  taxId: string;
+
+  facebook: string;
+  instagram: string;
+  youtube: string;
+
+  pickupTime: string;
+  deliveryTime: string;
+
+  autoAcceptOrders: boolean;
+  maintenanceMode: boolean;
+  maintenanceMessage: string;
+};
