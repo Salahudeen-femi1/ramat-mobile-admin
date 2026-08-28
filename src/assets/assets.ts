@@ -11,6 +11,8 @@ import emptybox from './images/emptybox.png'
 import coke from './images/coke.jpeg'
 import fufu from './images/fufu.jpeg'
 import jollof from './images/jollof.png'
+import resturant from './images/resturant.jpg'
+import motor from './images/motor.png'
 
 export const assets = {
     image,
@@ -25,5 +27,7 @@ export const assets = {
     emptybox,
     jollof,
     fufu,
-    coke
+    coke,
+    resturant,
+    motor
 }

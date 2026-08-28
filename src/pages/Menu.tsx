@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import { menuItems } from "../helper/data";
 import MenuCard from "../card/MenuCard";
 import MenuModal from "../modal/MenuModal";
+import { useQuery } from "@tanstack/react-query";
+import { getMeal } from "../service/apiService";
+import type { MenuItem } from "../helper/types";
 
 export default function Menu() {
-  const [items, setItems] = useState(menuItems);
+  // const [items, setItems] = useState(menuItems);
   const [showModal, setShowModal] = useState(false);
+  const [items, setItems] = useState<MenuItem[]>([]);
 
   const handleToggleAvailability = (itemId: string, available: boolean) => {
     setItems((currentItems) =>
@@ -21,6 +24,15 @@ export default function Menu() {
       )
     );
   };
+
+  const { data: fetchedItems = [] } = useQuery({
+    queryKey:["items"],
+    queryFn: getMeal
+  });
+
+  useEffect(() => {
+    setItems(fetchedItems);
+  }, [fetchedItems]);
 
   return (
     <>

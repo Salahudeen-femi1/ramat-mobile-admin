@@ -178,3 +178,44 @@ export type StoreForm = {
   maintenanceMode: boolean;
   maintenanceMessage: string;
 };
+
+export interface ModifierOption {
+  name: string;
+  price: number;
+}
+
+export interface ModifierGroup {
+  name: string;
+  options: ModifierOption[];
+  required: boolean;
+  multiple: boolean;
+}
+
+export interface CreateMealPayload {
+  name: string;
+  description: string;
+  category: string;
+  basePrice: number;
+  image?: File | null;
+  availableForOrder: boolean;
+  preparationTime?: string | number;
+  trackInventory: boolean;
+  modifierGroups: ModifierGroup[];
+}
+
+export interface Category {
+  _id: string;
+  name: string;
+}
+
+export interface UserProps {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
+export interface DietaryTag {
+  _id: string;
+  name: string;
+}

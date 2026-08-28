@@ -11,6 +11,7 @@ import Review from './pages/Review'
 import Notification from './pages/Notification'
 import Settings from './pages/Settings'
 import ViewMenu from './pages/ViewMenu'
+import Login from './pages/auth/Login'
 
 function App() {
 
@@ -19,7 +20,8 @@ function App() {
       <Toaster />
 
       <Routes>
-        <Route path='/' element={<Navigate to='/dashboard/overview' replace />} />
+        <Route path='/' element={<Navigate to='/login' replace />} />
+        <Route path='/login' element={<Login />} />
         <Route
           path='/dashboard/overview'
           element={
