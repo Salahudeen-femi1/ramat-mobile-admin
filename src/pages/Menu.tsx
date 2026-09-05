@@ -3,36 +3,43 @@ import { IoMdAdd } from "react-icons/io";
 import MenuCard from "../card/MenuCard";
 import MenuModal from "../modal/MenuModal";
 import { useQuery } from "@tanstack/react-query";
-import { getMeal } from "../service/apiService";
+import { getMenu } from "../service/apiService";
 import type { MenuItem } from "../helper/types";
+import { toast } from "sonner";
+import { useAvailabilityMutation } from "../service/helper";
 
 export default function Menu() {
-  // const [items, setItems] = useState(menuItems);
   const [showModal, setShowModal] = useState(false);
-  const [items, setItems] = useState<MenuItem[]>([]);
+  const availabilityMutation = useAvailabilityMutation();
 
-  const handleToggleAvailability = (itemId: string, available: boolean) => {
-    setItems((currentItems) =>
-      currentItems.map((item) =>
-        item.id === itemId
-          ? {
-            ...item,
-            available,
-            soldOut: !available,
-          }
-          : item
-      )
-    );
-  };
-
-  const { data: fetchedItems = [] } = useQuery({
-    queryKey:["items"],
-    queryFn: getMeal
+  const { data: menuResponse = { items: [] }, isLoading, error: menuError } = useQuery<MenuItem[]>({
+    queryKey: ["fetchedItems"],
+    queryFn: getMenu,
   });
 
+  const items = Array.isArray(menuResponse?.items) ? menuResponse.items : [];
+
+  const handleToggleAvailability = (itemId: string, available: boolean) => {
+    availabilityMutation.mutate({ itemId, available });
+  };
+
   useEffect(() => {
-    setItems(fetchedItems);
-  }, [fetchedItems]);
+    if (menuError) {
+      const message =
+        (menuError as any)?.response?.data?.message ||
+        "An error occurred while fetching menu items.";
+
+      toast.error(message);
+    }
+  }, [menuError]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500 text-sm">Loading menu items...</p>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -51,17 +58,25 @@ export default function Menu() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mt-10 ">
-        {items.map((item) => (
-          <MenuCard
-            key={item.id}
-            item={item}
-            onToggleAvailability={(available) =>
-              handleToggleAvailability(item.id, available)
-            }
-          />
-        ))}
-      </div>
+      {
+        items.length === 0 && !isLoading ? (
+          <div className="flex justify-center items-center h-screen">
+            <p className="text-gray-500 text-sm">No menu items available.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mt-10 ">
+            {items.map((item: MenuItem) => (
+              <MenuCard
+                key={item.id}
+                item={item}
+                onToggleAvailability={(available) =>
+                  handleToggleAvailability(item.id, available)
+                }
+              />
+            ))}
+          </div>
+        )
+      }
 
       {
         showModal && (

@@ -1,5 +1,5 @@
 import api from "../helper/axios";
-import type { Category, CreateMealPayload, MenuItem, UserProps } from "../helper/types";
+import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, MenuItem, orderData } from "../helper/types";
 
 export const createMeal = async (
   payload: CreateMealPayload
@@ -21,7 +21,7 @@ export const createMeal = async (
   formData.append("trackInventory", String(payload.trackInventory));
   formData.append("modifierGroups", JSON.stringify(payload.modifierGroups));
   if (payload.image) {
-    formData.append("image", payload.image);
+    formData.append("image", payload.image) ;
   }
 
   const response = await api.post("/menu/create", formData, {
@@ -33,7 +33,12 @@ export const createMeal = async (
   return response.data;
 };
 
-export const getMeal = async (): Promise<MenuItem[]> => {
+export const getOrders = async (params?: Record<string, unknown>): Promise<orderData[]> => {
+  const response = await api.get('/orders', { params });
+  return response.data;
+};
+
+export const getMenu = async (): Promise<MenuItem[]> => {
   const response = await api.get('/menu')
   return response.data;
 }
@@ -43,7 +48,34 @@ export const getCategories = async (category: string): Promise<{ data: Category 
   return response.data;
 };
 
-export const loginService = async (data: { email: string; pin: string }): Promise<{ token: string; user: UserProps; role: string }> => {
-  const response = await api.post("/auth/login", data);
+export const loginService = async (values: AdminLoginProps): Promise<AdminLoginResponse> => {
+  const response = await api.post("/auth/login", values);
+  return response.data;
+}
+
+export const updateMenuAvailability = async ({
+  itemId,
+  available,
+}: {
+  itemId: string;
+  available: boolean;
+}) => {
+  const response = await api.patch(
+    `/api/menu/${itemId}/availability`,
+    {
+      available,
+    }
+  );
+
+  return response.data;
+};
+
+export const getCustomers = async () => {
+  const response = await api.get("/user")
+  return response.data.data;
+}
+
+export const deleteCustomer = async (customerId: string | number): Promise<any> => {
+  const response = await api.delete(`/user/${customerId}`);
   return response.data;
 }

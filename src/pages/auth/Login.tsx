@@ -3,70 +3,55 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { assets } from '../../assets/assets';
-// import { Link } from 'react-router-dom';
-// import { useMutation } from '@tanstack/react-query'
-// import { toast } from 'sonner';
-// import axios from 'axios';
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { loginService } from '../../service/apiService';
+import { useUser } from '../../context/UserContext';
+import type { AdminLoginProps, AdminLoginResponse } from '../../helper/types';
 
 const Login: React.FC = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    // const { login } = useUser()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
+    const { login } = useUser()
 
-    // const mutation = useMutation<
-    //     { token: string; user: UserProps },
-    //     unknown,
-    //     { email: string; password: string }
-    // >({
-    //     mutationFn: login,
-    //     onSuccess: async (response) => {
-    //         toast.success("Login successfully")
-    //         console.log("login response", response)
+    const mutation = useMutation<AdminLoginResponse, Error,
+        AdminLoginProps>({
+            mutationFn: loginService,
+            onSuccess: (data) => {
+                toast.success(data.message)
 
-    //         await login(
-    //             response.token,
-    //             response.user,
-    //             response.user.role
-    //         )
+                login(data.token, data.user);
 
-    //         if (response.user.role === "donor") {
-    //             navigate("/dashboard");
-    //         } else {
-    //             navigate("/admin/dashboard");
-    //         }
-    //     },
-    //     onError: (error) => {
-    //         if (axios.isAxiosError(error)) {
-    //             toast.error(
-    //                 error.response?.data?.message || "Something went wrong"
-    //             );
+                navigate('/dashboard/overview')
 
-    //             console.log(error.response?.data);
-    //         } else {
-    //             toast.error("Something went wrong");
-    //         }
-    //     }
+            },
+            onError: (error: Error) => {
+                const message = error.message || "Something went wrong. Please try again.";
 
-    // })
+                toast.error(message);
+            }
+
+        })
 
     const validationSchema = Yup.object({
         email: Yup.string()
             .email('Invalid email address')
             .required('Email is required'),
-        password: Yup.string()
-            .min(8, 'Password must be at least 8 characters')
-            .required('Password is required'),
+        pin: Yup.string()
+            .min(4, 'PIN must be at least 4 characters')
+            .required('PIN is required'),
     });
 
     const formik = useFormik({
         initialValues: {
             email: '',
-            password: ''
+            pin: ''
         },
         validationSchema,
         onSubmit: async (values) => {
-            console.log(values)
+            mutation.mutate(values)
         },
     });
 
@@ -76,13 +61,6 @@ const Login: React.FC = () => {
             : 'border-[#FBFCFB3]'
             } placeholder-black rounded-md px-4 h-[50px] border text-sm w-full outline-0`,
     };
-
-
-    // if(user?.status === "PENDING" || user?.isEmailVerified === false){
-    //     return (
-    //         navigate("/EmailVerification")
-    //     )
-    // }
 
     return (
         <div className="flex items-center">
@@ -115,15 +93,15 @@ const Login: React.FC = () => {
                             )}
                         </div>
 
-                        {/* Password */}
+                        {/* PIN */}
                         <div className="relative flex flex-col space-y-1">
-                            <label htmlFor="password" className="font-medium">Password</label>
+                            <label htmlFor="pin" className="font-medium">PIN</label>
                             <input
                                 type={showPassword ? 'text' : 'password'}
-                                id="password"
-                                name="password"
-                                placeholder="Enter password"
-                                value={formik.values.password}
+                                id="pin"
+                                name="pin"
+                                placeholder="Enter PIN"
+                                value={formik.values.pin}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 className={styles.input}
@@ -134,8 +112,8 @@ const Login: React.FC = () => {
                             >
                                 {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
                             </span>
-                            {formik.touched.password && formik.errors.password && (
-                                <span className="text-red-500 pl-3 text-sm">{formik.errors.password}</span>
+                            {formik.touched.pin && formik.errors.pin && (
+                                <span className="text-red-500 pl-3 text-sm">{formik.errors.pin}</span>
                             )}
                         </div>
 
@@ -151,10 +129,10 @@ const Login: React.FC = () => {
 
                             <button
                                 type="submit"
-                                disabled={formik.isSubmitting}
+                                disabled={mutation.isPending}
                                 className="bg-primary text-white font-medium rounded-md h-[45px] cursor-pointer disabled:opacity-70 transition"
                             >
-                                {formik.isSubmitting ? 'Logging in...' : 'Login'}
+                                {mutation.isPending ? 'Logging in...' : 'Login'}
                             </button>
                         </div>
                     </form>

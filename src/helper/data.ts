@@ -1,4 +1,4 @@
-import type { BusinessDay, Customer, MenuItem, OrderProps, Payment, PaymentProps, Review, StoreForm, TopItem } from "./types";
+import type { BusinessDay, Customer, MenuItem, orderData, OrderProps, Payment, PaymentProps, Review, StoreForm, TopItem } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
 import { assets } from "../assets/assets";
@@ -49,6 +49,100 @@ export const dashboardData: dataProps[] = [
         description: "8.4%"
     },
 ]
+
+export const userData = [
+    {
+      id: 1,
+      customer: "Julian casablanka",
+      contact_info: "johndoe@example.com",
+      orders: "4",
+      total_spent: "$ 120.00",
+      last_order: "2023-08-15",
+      status: "active",
+      time: '1942',
+      payment: "paid"
+    },
+    {
+      id: 2,
+      customer: "Julian casablanka",
+      contact_info: "johndoe@example.com",
+      orders: "4",
+      total_spent: "$ 120.00",
+      last_order: "2023-08-15",
+      status: "inactive",
+      time: '1942',
+      payment: "paid"
+    },
+    {
+      id: 3,
+      customer: "Julian casablanka",
+      contact_info: "johndoe@example.com",
+      orders: "4",
+      total_spent: "$ 120.00",
+      last_order: "2023-08-15",
+      status: "active",
+      time: '1942',
+      payment: "paid"
+    },
+  ]
+
+export const data: orderData[] = [
+    {
+      order_no: "#ORD-1284",
+      code: "k72",
+      customer: "Julian casablanka",
+      item_ordered: "1 Plate of rice and chicken",
+      quantity: "4",
+      amount: "$ 20.00",
+      status: "recieved",
+      time: '1942',
+      payment: "paid"
+    },
+    {
+      order_no: "#ORD-1284",
+      code: "k72",
+      customer: "Julian casablanka",
+      item_ordered: "1 Plate of rice and chicken",
+      quantity: "4",
+      amount: "$ 20.00",
+      status: "cancelled",
+      time: '1942',
+      payment: "failed"
+    },
+    {
+      order_no: "#ORD-1284",
+      code: "k72",
+      customer: "Julian casablanka",
+      item_ordered: "1 Plate of rice and chicken",
+      quantity: "4",
+      amount: "$ 20.00",
+      status: "completed",
+      time: '1942',
+      payment: "pending"
+    },
+    {
+      order_no: "#ORD-1284",
+      code: "k72",
+      customer: "Julian casablanka",
+      item_ordered: "1 Plate of rice and chicken",
+      quantity: "4",
+      amount: "$ 20.00",
+      status: "preparing",
+      time: '1942',
+      payment: "paid"
+    },
+    {
+      order_no: "#ORD-1284",
+      code: "k72",
+      customer: "Julian casablanka",
+      item_ordered: "1 Plate of rice and chicken",
+      quantity: "4",
+      amount: "$ 20.00",
+      status: "ready",
+      time: '1942',
+      payment: "failed"
+    },
+  ]
 
 export const recentOrders: OrderProps[] = [
     {

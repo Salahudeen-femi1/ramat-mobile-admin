@@ -127,6 +127,7 @@ export interface MenuItem {
   featured?: boolean;
   available: boolean;
   soldOut?: boolean;
+  items: string;
 }
 
 export interface orderedItem {
@@ -191,6 +192,23 @@ export interface ModifierGroup {
   multiple: boolean;
 }
 
+export interface AdminLoginProps {
+  email: string;
+  pin: string;
+}
+
+export interface AdminLoginResponse {
+    token: string;
+    message: string;
+    user: {
+        id: string;
+        first_name: string;
+        last_name: string;
+        email: string;
+        role: string;
+    };
+}
+
 export interface CreateMealPayload {
   name: string;
   description: string;
@@ -210,7 +228,6 @@ export interface Category {
 
 export interface UserProps {
   id: string;
-  name: string;
   email: string;
   role: string;
 }

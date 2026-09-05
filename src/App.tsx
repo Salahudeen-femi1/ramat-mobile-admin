@@ -12,8 +12,14 @@ import Notification from './pages/Notification'
 import Settings from './pages/Settings'
 import ViewMenu from './pages/ViewMenu'
 import Login from './pages/auth/Login'
+import { useUser } from './context/UserContext'
 
 function App() {
+  const { loading } = useUser()
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-screen text-gray-500">Loading...</div>
+  }
 
   return (
     <>
@@ -44,7 +50,7 @@ function App() {
           path='/dashboard/order'
           element={
             <MainLayout
-              child={<Orders />}
+              child={<Orders isRecent={true} />}
               heading='Orders'
             />
           }

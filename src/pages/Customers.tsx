@@ -1,36 +1,46 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReusableTable from '../utility/ReusableTable'
 import { LuDownload } from 'react-icons/lu'
 import { IoFilter } from 'react-icons/io5'
 import ActionCell from '../utility/ActionCell'
 import CustomerModal from '../modal/CustomerModal'
+import { getCustomers } from '../service/apiService'
+import { useQuery } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import ConfirmDialog from '../modal/ConfirmDialog'
+import { useDeleteCustomerMutation } from '../service/helper'
 
 export default function Customers() {
 
   const [viewModal, setViewModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
-  const [selectedOrder, setSelectedOrder] = React.useState<any>(null);
+  const [selectedCustomer, setSelectedCustomer] = React.useState<any>(null);
 
   const columns = [
     {
       label: "CUSTOMER",
-      key: "customer"
+      key: "customer",
+      render: (item: any) => item.customer || "-",
     },
     {
       label: "CONTACT INFO",
-      key: "contact_info"
+      key: "contact_info",
+      render: (item: any) => item.contact_info || "-",
     },
     {
       label: "ORDERES",
-      key: "orders"
+      key: "orders",
+      render: (item: any) => item.orders || "-",
     },
     {
       label: "TOTAL SPENT",
-      key: "total_spent"
+      key: "total_spent",
+      render: (item: any) => item.total_spent || "-",
     },
     {
       label: "LAST ORDER",
-      key: "last_order"
+      key: "last_order",
+      render: (item: any) => item.last_order || "-",
     },
     {
       label: "STATUS",
@@ -50,47 +60,46 @@ export default function Customers() {
           rowId={Number(item.id)}
           onView={() => setViewModal(true)}
           onDelete={() => setDeleteModal(true)}
-          toggleAction={() => setSelectedOrder(item)}
+          toggleAction={() => setSelectedCustomer(item)}
         />
       )
     },
   ];
 
-  const data = [
-    {
-      id: 1,
-      customer: "Julian casablanka",
-      contact_info: "johndoe@example.com",
-      orders: "4",
-      total_spent: "$ 120.00",
-      last_order: "2023-08-15",
-      status: "active",
-      time: '1942',
-      payment: "paid"
-    },
-    {
-      id: 2,
-      customer: "Julian casablanka",
-      contact_info: "johndoe@example.com",
-      orders: "4",
-      total_spent: "$ 120.00",
-      last_order: "2023-08-15",
-      status: "inactive",
-      time: '1942',
-      payment: "paid"
-    },
-    {
-      id: 3,
-      customer: "Julian casablanka",
-      contact_info: "johndoe@example.com",
-      orders: "4",
-      total_spent: "$ 120.00",
-      last_order: "2023-08-15",
-      status: "active",
-      time: '1942',
-      payment: "paid"
-    },
-  ]
+  const handleDeleteCustomer = () => {
+    useDeleteCustomerMutation.mutate(selectedCustomer.id, {
+      onSuccess: () => {
+        toast.success("Customer deleted successfully");
+        setDeleteModal(false);
+      },
+      onError: (err: any) => {
+        toast.error(err?.response?.data?.message || "Failed to delete customer");
+      }
+    })
+  }
+
+
+
+  const { data: customers = [], isLoading, error: customerError } = useQuery({
+    queryKey: ["customers"],
+    queryFn: getCustomers
+  })
+
+  useEffect(() => {
+    if (customerError) {
+      const message = (customerError as any).response?.data?.message || "An error occurred while fetching customers.";
+
+      toast.error(message);
+    }
+  }, [customerError])
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500 text-sm">Loading menu items...</p>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -114,28 +123,49 @@ export default function Customers() {
         </div>
       </div>
 
-      <div className="mt-10 bg-white border border-gray-300 rounded-lg ">
-        <span className=" flex gap-4 justify-start px-3 py-4 text-sm">
-          All Customer (1,248)
-        </span>
-        <ReusableTable
-          isLoading={false}
-          error={null}
-          data={data}
-          columns={columns}
-          currentPage={1}
-          totalPages={5}
-          totalItems={50}
-          setCurrentPage={() => { }}
-          itemsPerPage={10}
-          setItemsPerPage={() => { }}
-          hasSerialNo={true}
-        />
-      </div>
+      {
+        customers.length === 0 && !isLoading ? (
+          <div className="flex justify-center items-center h-screen">
+            <p className="text-gray-500 text-sm">No customers available.</p>
+          </div>
+        ) : (
+          <div className="mt-10 bg-white border border-gray-300 rounded-lg ">
+            <span className=" flex gap-4 justify-start px-3 py-4 text-sm">
+              All Customer ({customers.length})
+            </span>
+            <ReusableTable
+              isLoading={false}
+              error={customerError}
+              data={customers}
+              columns={columns}
+              currentPage={1}
+              totalPages={5}
+              totalItems={50}
+              setCurrentPage={() => { }}
+              itemsPerPage={10}
+              setItemsPerPage={() => { }}
+              hasSerialNo={true}
+            />
+          </div>
+        )
+      }
 
       {
         viewModal && (
           <CustomerModal onClose={() => setViewModal(false)} />
+        )
+      }
+
+      {
+        deleteModal && (
+          <ConfirmDialog
+            isOpen={deleteModal}
+            title="Delete Customer"
+            message={`Are you sure you want to delete ${selectedCustomer?.customer}? This action cannot be undone.`}
+            onCancel={() => setDeleteModal(false)}
+            onConfirm={handleDeleteCustomer}
+            isLoading={false}
+          />
         )
       }
 
