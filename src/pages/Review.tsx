@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Review } from "../helper/types";
 import {
   ArrowRight,
@@ -15,11 +15,13 @@ import {
 } from "lucide-react";
 import StatCard from "../card/StatCard";
 import RatingStars from "../card/RatingStars";
-import { initialReviews, topItems } from "../helper/data";
-
+import { topItems } from "../helper/data";
+import { useAverageRating, useRating } from "../service/helper";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Review() {
-  const [reviews, setReviews] = useState<Review[]>(initialReviews);
+  // const [reviews, setReviews] = useState<Review[]>([]);
   const [filter, setFilter] = useState<
     "All Reviews" | "5 Stars" | "Needs Reply"
   >("All Reviews");
@@ -29,8 +31,12 @@ export default function Review() {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const [replyText, setReplyText] = useState("");
 
+  const { data: average } = useAverageRating()
+  const { data: rating, isLoading, error } = useRating()
+  const queryClient = useQueryClient();
+
   const filteredReviews = useMemo(() => {
-    return reviews.filter((review) => {
+    return (rating ?? []).filter((review: Review) => {
       const matchesSearch =
         review.name.toLowerCase().includes(search.toLowerCase()) ||
         review.text.toLowerCase().includes(search.toLowerCase()) ||
@@ -47,39 +53,68 @@ export default function Review() {
       }
 
       return true;
-    });
-  }, [reviews, filter, search]);
+    }) ?? [];
+  }, [rating, filter, search]);
 
   const replyToReview = (id: number) => {
-    if (!replyText.trim()) return;
-
-    setReviews((current) =>
+    queryClient.setQueryData<Review[]>(["rating"], (current = []) =>
       current.map((review) =>
         review.id === id
-          ? {
-            ...review,
-            replied: true,
-            reply: replyText,
-            replyTime: "Just now",
-          }
+          ? { ...review, replied: true, reply: replyText }
           : review
       )
     );
-
-    setReplyText("");
     setOpenReply(null);
+    setReplyText("");
   };
 
   const markAsReplied = (id: number) => {
-    setReviews((current) =>
+    queryClient.setQueryData<Review[]>(["rating"], (current = []) =>
       current.map((review) =>
-        review.id === id ? { ...review, replied: true } : review
+        review.id === id
+          ? { ...review, replied: true }
+          : review
       )
     );
   };
 
-  const averageRating = 4.8;
-  const totalReviews = 1284;
+  const averageRating = average?.average ?? 0;
+  const totalReviews = rating?.length ?? 0;
+  const sentiment = useMemo(() => {
+    const reviews = rating ?? [];
+    const positive = reviews.filter((review) => review.rating >= 4).length;
+    const neutral = reviews.filter((review) => review.rating === 3).length;
+
+    if (reviews.length === 0) {
+      return { positive: 0, neutral: 0, negative: 0 };
+    }
+
+    const positivePercentage = Math.round((positive / reviews.length) * 100);
+    const neutralPercentage = Math.round((neutral / reviews.length) * 100);
+
+    return {
+      positive: positivePercentage,
+      neutral: neutralPercentage,
+      negative: 100 - positivePercentage - neutralPercentage,
+    };
+  }, [rating]);
+
+  useEffect(() => {
+    if (rating) {
+      toast.success("Successfull fetched ratings and message")
+    }
+
+    if (error) {
+      const message = (error as any).response?.data?.message || "An error occurred while fetching rating and reviews.";
+
+      toast.error(message);
+    }
+  }, [rating, error])
+
+
+  if (isLoading) {
+    return <div className="text-xs text-gray-500 text-center flex h-screen flex justify-center items-center">Loading...</div>
+  }
 
   return (
     <div className="min-h-screen bg-[#f7f9fb] p-4 font-sans text-[#182230]">
@@ -168,15 +203,30 @@ export default function Review() {
           <StatCard title="Sentiment Breakdown">
             <div className="mt-4">
               <div className="flex h-[5px] overflow-hidden rounded-full">
-                <div className="w-[75%] bg-[#1a9c5b]" />
-                <div className="w-[15%] bg-[#e8bd38]" />
-                <div className="w-[10%] bg-[#d73535]" />
+                <div
+                  className="bg-[#1a9c5b]"
+                  style={{ width: `${sentiment.positive}%` }}
+                />
+                <div
+                  className="bg-[#e8bd38]"
+                  style={{ width: `${sentiment.neutral}%` }}
+                />
+                <div
+                  className="bg-[#d73535]"
+                  style={{ width: `${sentiment.negative}%` }}
+                />
               </div>
 
               <div className="mt-2 flex justify-between text-[8px]">
-                <span className="text-green-600">● Positive (75%)</span>
-                <span className="text-yellow-600">● Neutral (15%)</span>
-                <span className="text-red-600">● Negative (10%)</span>
+                <span className="text-green-600">
+                  ● Positive ({sentiment.positive}%)
+                </span>
+                <span className="text-yellow-600">
+                  ● Neutral ({sentiment.neutral}%)
+                </span>
+                <span className="text-red-600">
+                  ● Negative ({sentiment.negative}%)
+                </span>
               </div>
             </div>
           </StatCard>
@@ -199,8 +249,8 @@ export default function Review() {
                       key={item}
                       onClick={() => setFilter(item)}
                       className={`flex items-center gap-1 rounded-full px-3 py-1 text-[8px] font-medium ${filter === item
-                          ? "bg-[#e8f8ef] text-[#08763b]"
-                          : "border border-gray-200 text-gray-600"
+                        ? "bg-[#e8f8ef] text-[#08763b]"
+                        : "border border-gray-200 text-gray-600"
                         }`}
                     >
                       {item}
@@ -214,7 +264,7 @@ export default function Review() {
 
                       {item === "Needs Reply" && (
                         <span className="rounded-full bg-red-100 px-1 text-[7px] text-red-500">
-                          2
+                          {item.length}
                         </span>
                       )}
                     </button>
@@ -239,7 +289,7 @@ export default function Review() {
 
             {/* REVIEWS */}
             <div className="mt-3 space-y-3">
-              {filteredReviews.map((review) => (
+              {filteredReviews.map((review: Review) => (
                 <div
                   key={review.id}
                   className="rounded-xl border border-[#dfe4ea] bg-white p-3"

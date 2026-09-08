@@ -134,15 +134,15 @@ export default function Payment() {
             <div className='bg-white border border-gray-300 rounded-lg p-4'>
               <div key={index} className=" flex justify-between ">
                 <div className="">
-                  <h3 className="text-sm font-medium text-gray-500">{stat.label}</h3>
-                  <p className="text-xl font-medium">{stat.value}</p>
+                  <h3 className="text-xs font-medium text-gray-500">{stat.label}</h3>
+                  <p className="text-xl font-bold">{stat.value}</p>
                 </div>
                 <span className="text-gray-200">
                   <Icon size={20} className="text-primary" />
                 </span>
               </div>
 
-              <div className={`flex items-center gap-1 text-xs font-medium mt-3 ${isIncrease ? "text-green-600" : "text-red-600"}`}>
+              <div className={`flex items-center gap-1 text-[10px] mt-1 ${isIncrease ? "text-green-600" : "text-red-600"}`}>
                 {
                   isIncrease ? (
                     <FaArrowTrendUp />

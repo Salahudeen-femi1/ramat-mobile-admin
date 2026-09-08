@@ -35,7 +35,7 @@ export const createMeal = async (
 
 export const getOrders = async (params?: Record<string, unknown>): Promise<orderData[]> => {
   const response = await api.get('/orders', { params });
-  return response.data;
+  return response.data.data ?? [];
 };
 
 export const getMenu = async (): Promise<MenuItem[]> => {
@@ -78,4 +78,33 @@ export const getCustomers = async () => {
 export const deleteCustomer = async (customerId: string | number): Promise<any> => {
   const response = await api.delete(`/user/${customerId}`);
   return response.data;
+}
+
+export const getCustomerDetails = async (customerId: string | number) => {
+  const response = await api.get(`/user/${customerId}`);
+  return response.data.data;
+}
+
+export const getAverageRating = async () => {
+  const response = await api.get('/rating/average')
+  return response.data
+}
+
+export const getRating = async () => {
+  const response = await api.get('/rating')
+  const payload = response.data;
+
+  if (Array.isArray(payload)) {
+    return payload;
+  }
+
+  if (Array.isArray(payload?.ratings)) {
+    return payload.ratings;
+  }
+
+  if (Array.isArray(payload?.data)) {
+    return payload.data;
+  }
+
+  return [];
 }

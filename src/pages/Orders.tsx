@@ -113,7 +113,7 @@ export default function Orders({ isRecent }: { isRecent: boolean }) {
     ...(paymentFilter !== 'all' && { payment: paymentFilter }),
   };
 
-  const { data: orders, isLoading, error: orderError } = useQuery<orderData[]>({
+  const { data: orders = [], isLoading, error: orderError } = useQuery<orderData[]>({
     queryKey: ['orders', currentPage, statusFilter, paymentFilter, isRecent],
     queryFn: () => getOrders(queryParams),
   });
@@ -132,7 +132,7 @@ export default function Orders({ isRecent }: { isRecent: boolean }) {
 
       toast.error(message);
     }
-  }, [orderError])
+  }, [])
 
   return (
     <>

@@ -15,17 +15,23 @@ export default function Customers() {
   const [viewModal, setViewModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [selectedCustomer, setSelectedCustomer] = React.useState<any>(null);
+  const deleteCustomerMutation = useDeleteCustomerMutation();
 
   const columns = [
     {
-      label: "CUSTOMER",
-      key: "customer",
-      render: (item: any) => item.customer || "-",
+      label: "FIRST NAME",
+      key: "first_name",
+      render: (item: any) => item.first_name || "-",
+    },
+    {
+      label: "LAST NAME",
+      key: "last_name",
+      render: (item: any) => item.last_name || "-",
     },
     {
       label: "CONTACT INFO",
-      key: "contact_info",
-      render: (item: any) => item.contact_info || "-",
+      key: "phone",
+      render: (item: any) => item.phone || "-",
     },
     {
       label: "ORDERES",
@@ -58,16 +64,21 @@ export default function Customers() {
         <ActionCell
           canView={true}
           rowId={Number(item.id)}
-          onView={() => setViewModal(true)}
-          onDelete={() => setDeleteModal(true)}
-          toggleAction={() => setSelectedCustomer(item)}
+          onView={() => {
+            setSelectedCustomer(item);
+            setViewModal(true);
+          }}
+          onDelete={() => {
+            setSelectedCustomer(item);
+            setDeleteModal(true);
+          }}
         />
       )
     },
   ];
 
   const handleDeleteCustomer = () => {
-    useDeleteCustomerMutation.mutate(selectedCustomer.id, {
+    deleteCustomerMutation.mutate(selectedCustomer.id, {
       onSuccess: () => {
         toast.success("Customer deleted successfully");
         setDeleteModal(false);
@@ -77,8 +88,6 @@ export default function Customers() {
       }
     })
   }
-
-
 
   const { data: customers = [], isLoading, error: customerError } = useQuery({
     queryKey: ["customers"],
@@ -152,7 +161,10 @@ export default function Customers() {
 
       {
         viewModal && (
-          <CustomerModal onClose={() => setViewModal(false)} />
+          <CustomerModal
+            onClose={() => setViewModal(false)}
+            customerId={selectedCustomer.id}
+          />
         )
       }
 
@@ -161,7 +173,7 @@ export default function Customers() {
           <ConfirmDialog
             isOpen={deleteModal}
             title="Delete Customer"
-            message={`Are you sure you want to delete ${selectedCustomer?.customer}? This action cannot be undone.`}
+            message={`Are you sure you want to delete ${selectedCustomer?.first_name}? This action cannot be undone.`}
             onCancel={() => setDeleteModal(false)}
             onConfirm={handleDeleteCustomer}
             isLoading={false}

@@ -11,6 +11,7 @@ import { useUser } from '../../context/UserContext';
 import type { AdminLoginProps, AdminLoginResponse } from '../../helper/types';
 
 const Login: React.FC = () => {
+    
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const navigate = useNavigate()
@@ -25,7 +26,6 @@ const Login: React.FC = () => {
                 login(data.token, data.user);
 
                 navigate('/dashboard/overview')
-
             },
             onError: (error: Error) => {
                 const message = error.message || "Something went wrong. Please try again.";
