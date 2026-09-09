@@ -1,4 +1,5 @@
 import type { IconType } from "react-icons/lib";
+import { menuItems } from "./data";
 
 export interface OrderProps {
   id: string;
@@ -118,7 +119,7 @@ export interface PaginationControlProps {
   tableType?: string;
 }
 
-export interface MenuItem {
+ interface MenuItem {
   id: string;
   name: string;
   category: string;
@@ -128,6 +129,14 @@ export interface MenuItem {
   available: boolean;
   soldOut?: boolean;
   items: string;
+}
+
+export interface MenuResponse {
+  success: boolean;
+  message: string;
+  id: string 
+  _id: string | number
+  items: MenuItem[];
 }
 
 export interface orderedItem {
@@ -154,6 +163,30 @@ export type BusinessDay = {
   open: string;
   close: string;
 };
+
+
+
+export interface PaymentHistoryResponse {
+  payments?: PaymentTransaction[];
+  data?: PaymentTransaction[];
+  total_revenue?: string | number;
+  daily_earning?: string | number;
+  pending_settlement?: string | number;
+  refunds?: string | number;
+}
+
+export interface PaymentTransaction {
+  id?: string | number;
+  transaction_id?: string;
+  Tranaction_id?: string;
+  date: string;
+  order_id: string;
+  amount: string | number;
+  method?: string;
+  payment_method?: string;
+  status: "success" | "pending" | "failed";
+  customer: string;
+}
 
 export type StoreForm = {
   restaurantName: string;
@@ -213,7 +246,7 @@ export interface CreateMealPayload {
   name: string;
   description: string;
   category: string;
-  basePrice: number;
+  price: number;
   image?: File | null;
   availableForOrder: boolean;
   preparationTime?: string | number;

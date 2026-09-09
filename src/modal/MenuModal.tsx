@@ -36,7 +36,7 @@ const MenuModal = ({ onClose }: modalProps) => {
     category: Yup.string()
       .required("Please select a category"),
 
-    basePrice: Yup.number()
+    price: Yup.number()
       .typeError("Enter a valid price")
       .required("Base price is required")
       .min(0, "Price cannot be negative"),
@@ -127,19 +127,23 @@ const MenuModal = ({ onClose }: modalProps) => {
       onClose();
     },
 
-    onError: () => {
-      toast.error("Failed to create meal");
+    onError: (error: unknown) => {
+      const responseError = error as {
+        response?: { data?: { message?: string } };
+      };
+      toast.error(
+        responseError.response?.data?.message || "Failed to create meal"
+      );
     },
   });
 
   // FORMIK
-
   const formik = useFormik<CreateMealPayload>({
     initialValues: {
       name: "",
       description: "",
       category: "",
-      basePrice: 0,
+      price: 0,
       preparationTime: 15,
       image: null,
       availableForOrder: true,
@@ -484,19 +488,19 @@ const MenuModal = ({ onClose }: modalProps) => {
 
                     <input
                       type="number"
-                      name="basePrice"
+                      name="price"
                       min="0"
                       step="0.01"
-                      value={formik.values.basePrice}
+                      value={formik.values.price}
                       onChange={formik.handleChange}
                       className="w-full border-none bg-transparent pl-2 text-[10px] outline-none"
                     />
                   </div>
 
-                  {formik.touched.basePrice &&
-                    formik.errors.basePrice && (
+                  {formik.touched.price &&
+                    formik.errors.price && (
                       <p className="mt-1 text-[9px] text-red-500">
-                        {formik.errors.basePrice}
+                        {formik.errors.price}
                       </p>
                     )}
                 </div>

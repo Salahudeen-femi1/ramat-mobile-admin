@@ -1,4 +1,4 @@
-import type { BusinessDay, Customer, MenuItem, orderData, OrderProps, Payment, PaymentProps, Review, StoreForm, TopItem } from "./types";
+import type { BusinessDay, Customer, MenuItem, orderData, OrderProps, Payment, PaymentProps, StoreForm, TopItem } from "./types";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdDeliveryDining } from "react-icons/md";
 import { assets } from "../assets/assets";
@@ -9,159 +9,159 @@ import { HiMiniReceiptRefund } from "react-icons/hi2";
 // import { IoReceiptOutline } from "react-icons/io5";
 
 interface dataProps {
-    label: string;
-    value: string;
-    description?: string;
+  label: string;
+  value: string;
+  description?: string;
 }
 
 export const dashboardData: dataProps[] = [
-    {
-        label: 'Orders Today',
-        value: '142'
-    },
-    {
-        label: 'Active Orders',
-        value: '18'
-    },
-    {
-        label: 'Ready for Pickup',
-        value: '06',
-        description: 'Across 4 delivery provider'
-    },
-    {
-        label: 'Completed Orders',
-        value: '118',
-        description: "Today's total efficiency"
-    },
-    {
-        label: 'Revenue Today',
-        value: 'N40,000',
-        description: "8.4%"
-    },
-    {
-        label: 'Monthly Revenue',
-        value: 'N92.5k',
-        description: "8.4%"
-    },
-    {
-        label: 'Total Customers',
-        value: '24',
-        description: "8.4%"
-    },
+  {
+    label: 'Orders Today',
+    value: '142'
+  },
+  {
+    label: 'Active Orders',
+    value: '18'
+  },
+  {
+    label: 'Ready for Pickup',
+    value: '06',
+    description: 'Across 4 delivery provider'
+  },
+  {
+    label: 'Completed Orders',
+    value: '118',
+    description: "Today's total efficiency"
+  },
+  {
+    label: 'Revenue Today',
+    value: 'N40,000',
+    description: "8.4%"
+  },
+  {
+    label: 'Monthly Revenue',
+    value: 'N92.5k',
+    description: "8.4%"
+  },
+  {
+    label: 'Total Customers',
+    value: '24',
+    description: "8.4%"
+  },
 ]
 
 export const userData = [
-    {
-      id: 1,
-      customer: "Julian casablanka",
-      contact_info: "johndoe@example.com",
-      orders: "4",
-      total_spent: "$ 120.00",
-      last_order: "2023-08-15",
-      status: "active",
-      time: '1942',
-      payment: "paid"
-    },
-    {
-      id: 2,
-      customer: "Julian casablanka",
-      contact_info: "johndoe@example.com",
-      orders: "4",
-      total_spent: "$ 120.00",
-      last_order: "2023-08-15",
-      status: "inactive",
-      time: '1942',
-      payment: "paid"
-    },
-    {
-      id: 3,
-      customer: "Julian casablanka",
-      contact_info: "johndoe@example.com",
-      orders: "4",
-      total_spent: "$ 120.00",
-      last_order: "2023-08-15",
-      status: "active",
-      time: '1942',
-      payment: "paid"
-    },
-  ]
+  {
+    id: 1,
+    customer: "Julian casablanka",
+    contact_info: "johndoe@example.com",
+    orders: "4",
+    total_spent: "$ 120.00",
+    last_order: "2023-08-15",
+    status: "active",
+    time: '1942',
+    payment: "paid"
+  },
+  {
+    id: 2,
+    customer: "Julian casablanka",
+    contact_info: "johndoe@example.com",
+    orders: "4",
+    total_spent: "$ 120.00",
+    last_order: "2023-08-15",
+    status: "inactive",
+    time: '1942',
+    payment: "paid"
+  },
+  {
+    id: 3,
+    customer: "Julian casablanka",
+    contact_info: "johndoe@example.com",
+    orders: "4",
+    total_spent: "$ 120.00",
+    last_order: "2023-08-15",
+    status: "active",
+    time: '1942',
+    payment: "paid"
+  },
+]
 
 export const data: orderData[] = [
-    {
-      order_no: "#ORD-1284",
-      code: "k72",
-      customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "recieved",
-      time: '1942',
-      payment: "paid"
-    },
-    {
-      order_no: "#ORD-1284",
-      code: "k72",
-      customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "cancelled",
-      time: '1942',
-      payment: "failed"
-    },
-    {
-      order_no: "#ORD-1284",
-      code: "k72",
-      customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "completed",
-      time: '1942',
-      payment: "pending"
-    },
-    {
-      order_no: "#ORD-1284",
-      code: "k72",
-      customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "preparing",
-      time: '1942',
-      payment: "paid"
-    },
-    {
-      order_no: "#ORD-1284",
-      code: "k72",
-      customer: "Julian casablanka",
-      item_ordered: "1 Plate of rice and chicken",
-      quantity: "4",
-      amount: "$ 20.00",
-      status: "ready",
-      time: '1942',
-      payment: "failed"
-    },
-  ]
+  {
+    order_no: "#ORD-1284",
+    code: "k72",
+    customer: "Julian casablanka",
+    item_ordered: "1 Plate of rice and chicken",
+    quantity: "4",
+    amount: "$ 20.00",
+    status: "recieved",
+    time: '1942',
+    payment: "paid"
+  },
+  {
+    order_no: "#ORD-1284",
+    code: "k72",
+    customer: "Julian casablanka",
+    item_ordered: "1 Plate of rice and chicken",
+    quantity: "4",
+    amount: "$ 20.00",
+    status: "cancelled",
+    time: '1942',
+    payment: "failed"
+  },
+  {
+    order_no: "#ORD-1284",
+    code: "k72",
+    customer: "Julian casablanka",
+    item_ordered: "1 Plate of rice and chicken",
+    quantity: "4",
+    amount: "$ 20.00",
+    status: "completed",
+    time: '1942',
+    payment: "pending"
+  },
+  {
+    order_no: "#ORD-1284",
+    code: "k72",
+    customer: "Julian casablanka",
+    item_ordered: "1 Plate of rice and chicken",
+    quantity: "4",
+    amount: "$ 20.00",
+    status: "preparing",
+    time: '1942',
+    payment: "paid"
+  },
+  {
+    order_no: "#ORD-1284",
+    code: "k72",
+    customer: "Julian casablanka",
+    item_ordered: "1 Plate of rice and chicken",
+    quantity: "4",
+    amount: "$ 20.00",
+    status: "ready",
+    time: '1942',
+    payment: "failed"
+  },
+]
 
 export const recentOrders: OrderProps[] = [
-    {
-        id: "ORD-2849",
-        icon: ImSpoonKnife,
-        items: 2,
-        source: "Table 04",
-        status: "Ready",
-        time: "2m ago"
-    },
+  {
+    id: "ORD-2849",
+    icon: ImSpoonKnife,
+    items: 2,
+    source: "Table 04",
+    status: "Ready",
+    time: "2m ago"
+  },
 
-    {
-        id: "ORD-2848",
-        icon: MdDeliveryDining,
-        items: 5,
-        source: "Uber Eats",
-        status: "Processing",
-        time: "5m ago"
-    },
+  {
+    id: "ORD-2848",
+    icon: MdDeliveryDining,
+    items: 5,
+    source: "Uber Eats",
+    status: "Processing",
+    time: "5m ago"
+  },
 ];
 
 export const menuItems: MenuItem[] = [
@@ -173,6 +173,7 @@ export const menuItems: MenuItem[] = [
     price: 28,
     featured: true,
     available: true,
+    items: 'kfkdk'
   },
   {
     id: "2",
@@ -239,40 +240,40 @@ export const menuItems: MenuItem[] = [
 ];
 
 export const reviews = [
-    {
-        id: 1,
-        customer: "Julianne S.",
-        rating: 5,
-        review:
-            "The truffle risotto was absolutely sublime. Exceptional service and beautiful ambience."
-    },
+  {
+    id: 1,
+    customer: "Julianne S.",
+    rating: 5,
+    review:
+      "The truffle risotto was absolutely sublime. Exceptional service and beautiful ambience."
+  },
 
-    {
-        id: 2,
-        customer: "Marcus Thorne",
-        rating: 4,
-        review:
-            "Great presentation on the sea bass. The wine pairing was spot on."
-    }
+  {
+    id: 2,
+    customer: "Marcus Thorne",
+    rating: 4,
+    review:
+      "Great presentation on the sea bass. The wine pairing was spot on."
+  }
 ];
 
 export const orderItems = [
-    {
-        id: 1,
-        label: 'Jollof Rice',
-        quantity: 2,
-        price: 2800,
-        image: assets.jollof,
-        status: "paid"
-    },
-    {
-        id: 2,
-        label: 'Jollof Rice',
-        quantity: 2,
-        price: 2800,
-        image: assets.jollof,
-        status: "paid"
-    },
+  {
+    id: 1,
+    label: 'Jollof Rice',
+    quantity: 2,
+    price: 2800,
+    image: assets.jollof,
+    status: "paid"
+  },
+  {
+    id: 2,
+    label: 'Jollof Rice',
+    quantity: 2,
+    price: 2800,
+    image: assets.jollof,
+    status: "paid"
+  },
 ]
 
 export const customer: Customer = {
@@ -292,50 +293,50 @@ export const payment: Payment = {
 
 
 export const paymentStats: PaymentProps[] = [
-    {
-      label: "Total Revenue",
-      value: "124,529.00",
-      period: "vs last month",
-      change: 12.5,
-      icon: CiBank 
-    },
-    {
-      label: "Today's Earning",
-      value: "124,529.00",
-      period: "vs yesterday",
-      change: -8.5,
-      icon: FaRegMoneyBillAlt 
-    },
-    {
-      label: "Pending Settlement",
-      value: "124,529.00",
-      period: "vs last month",
-      change: 16.5,
-      icon: MdOutlinePendingActions
-    },
-    {
-      label: "Refunds",
-      value: "124,529.00",
-      period: "vs refund rate",
-      change: -12.5,
-      icon: HiMiniReceiptRefund
-    },
-  ]
+  {
+    label: "Total Revenue",
+    value: "124,529.00",
+    period: "vs last month",
+    change: 12.5,
+    icon: CiBank
+  },
+  {
+    label: "Today's Earning",
+    value: "124,529.00",
+    period: "vs yesterday",
+    change: -8.5,
+    icon: FaRegMoneyBillAlt
+  },
+  {
+    label: "Pending Settlement",
+    value: "124,529.00",
+    period: "vs last month",
+    change: 16.5,
+    icon: MdOutlinePendingActions
+  },
+  {
+    label: "Refunds",
+    value: "124,529.00",
+    period: "vs refund rate",
+    change: -12.5,
+    icon: HiMiniReceiptRefund
+  },
+]
 
 export const registrations = [
-    {
-        id: 1,
-        initials: "EK",
-        name: "Elena Kostic",
-        joined: "45m ago"
-    },
+  {
+    id: 1,
+    initials: "EK",
+    name: "Elena Kostic",
+    joined: "45m ago"
+  },
 
-    {
-        id: 2,
-        initials: "DL",
-        name: "David Lin",
-        joined: "1h ago"
-    }
+  {
+    id: 2,
+    initials: "DL",
+    name: "David Lin",
+    joined: "1h ago"
+  }
 ];
 
 export const initialForm: StoreForm = {

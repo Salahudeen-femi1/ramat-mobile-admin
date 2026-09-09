@@ -9,10 +9,7 @@ export const createMeal = async (
   formData.append("name", payload.name);
   formData.append("description", payload.description);
   formData.append("category", payload.category);
-  formData.append(
-    "basePrice",
-    String(payload.basePrice)
-  );
+  formData.append("price", String(payload.price));
   formData.append(
     "availableForOrder",
     String(payload.availableForOrder)
@@ -107,4 +104,9 @@ export const getRating = async () => {
   }
 
   return [];
+}
+
+export const getPaymenntHistory = async () => {
+  const response = await api.get('')
+  return response.data
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import OrderCard from '../card/OrderCard'
 import { recentOrders, registrations } from '../helper/data'
 import RegistrationCard from '../card/RegistrationCard'

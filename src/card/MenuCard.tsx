@@ -1,4 +1,3 @@
-import React from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import type { MenuItem } from "../helper/types";
 import Switch from "../component/Switch";

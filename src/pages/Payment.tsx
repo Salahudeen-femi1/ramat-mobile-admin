@@ -1,10 +1,13 @@
 import { LuDownload } from 'react-icons/lu'
-import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 import ReusableTable from '../utility/ReusableTable';
-import { paymentStats } from '../helper/data';
 import ActionCell from '../utility/ActionCell';
 import React from 'react';
-import { CiSearch } from 'react-icons/ci';
+import { CiBank, CiSearch } from 'react-icons/ci';
+import StatCard from '../card/StatCard';
+import { TrendingDown, TrendingUp } from 'lucide-react';
+import { FaRegMoneyBillAlt } from 'react-icons/fa';
+import { MdOutlinePendingActions } from 'react-icons/md';
+import { usePaymentHistory } from '../service/helper';
 
 interface Payment {
   Tranaction_id: string;
@@ -14,6 +17,8 @@ interface Payment {
   payment_method: string;
   status: "success" | "pending" | "failed"
   customer: string;
+  total_revenue: string;
+  total_earning: string;
 }
 
 export default function Payment() {
@@ -23,6 +28,15 @@ export default function Payment() {
   const [dateRange, setDateRange] = React.useState("last_ seven_days")
   const [methodFilter, setMethodFilter] = React.useState("")
   const [statusFilter, setStatusFilter] = React.useState("")
+
+  const {
+    paymentRows,
+    totalRevenue,
+    dailyEarning,
+    pendingSettlement,
+    refunds,
+    dailyEarningTrend,
+  } = usePaymentHistory();
 
   const paymentMethods = ['Smart card', 'Credit Card', 'Wallet', 'Bank transfer']
   const paymentStatuses = ['success', 'pending', 'failed']
@@ -34,23 +48,28 @@ export default function Payment() {
   const columns = [
     {
       label: "TRANSACTION ID",
-      key: "transaction_id"
+      key: "transaction_id",
+      render: (item: any) => item.transaction_id || "-"
     },
     {
       label: "ORDER ID",
-      key: "order_id"
+      key: "order_id",
+      render: (item: any) => item.order_id || "-"
     },
     {
       label: "Customer",
-      key: "customer"
+      key: "customer",
+      render: (item: any) => item.customer || "-"
     },
     {
       label: "AMOUNT",
-      key: "amount"
+      key: "amount",
+      render: (item: any) => item.amount || "-"
     },
     {
       label: "METHOD",
-      key: "method"
+      key: "method",
+      render: (item: any) => item.method || "-"
     },
     {
       label: "STATUS",
@@ -75,37 +94,7 @@ export default function Payment() {
     },
   ];
 
-  const data: Payment[] = [
-    {
-      Tranaction_id: "TRX-9921",
-      date: "OCT 25, 10:20",
-      order_id: "#ORD-1284",
-      customer: "Julian casablanka",
-      amount: "200",
-      status: "success",
-      payment_method: "Smart card"
-    },
-    {
-      Tranaction_id: "TRX-9921",
-      date: "OCT 25, 10:20",
-      order_id: "#ORD-1284",
-      customer: "Julian casablanka",
-      amount: "200",
-      status: "pending",
-      payment_method: "Smart card"
-    },
-    {
-      Tranaction_id: "TRX-9921",
-      date: "OCT 25, 10:20",
-      order_id: "#ORD-1284",
-      customer: "Julian casablanka",
-      amount: "200",
-      status: "fai",
-      payment_method: "Smart card"
-    },
-
-
-  ]
+ 
 
   return (
     <>
@@ -125,39 +114,99 @@ export default function Payment() {
       </div>
 
       <div className="grid grid-cols-4 gap-4 mt-6">
-        {paymentStats.map((stat, index) => {
-
-          const isIncrease = stat.change >= 0;
-          const Icon = stat.icon;
-
-          return (
-            <div className='bg-white border border-gray-300 rounded-lg p-4'>
-              <div key={index} className=" flex justify-between ">
-                <div className="">
-                  <h3 className="text-xs font-medium text-gray-500">{stat.label}</h3>
-                  <p className="text-xl font-bold">{stat.value}</p>
-                </div>
-                <span className="text-gray-200">
-                  <Icon size={20} className="text-primary" />
+        <StatCard title='Total Revenue'>
+          <div className="mt-1 flex items-center justify-between">
+            <div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-[20px] font-bold">
+                  {totalRevenue}
                 </span>
               </div>
 
-              <div className={`flex items-center gap-1 text-[10px] mt-1 ${isIncrease ? "text-green-600" : "text-red-600"}`}>
-                {
-                  isIncrease ? (
-                    <FaArrowTrendUp />
-                  ) : (
-                    <FaArrowTrendDown />
-                  )
-                }
-                <span>{Math.abs(stat.change)}% {stat.period} </span>
+              <div className="mt-1 flex items-center gap-1 text-[8px] text-green-600">
+                <TrendingDown size={9} />
+                <span>0.2 this month</span>
               </div>
             </div>
-          )
 
-        })}
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#eff8f1]">
+              <CiBank
+                size={13}
+                className="fill-[#f4b942] text-[#f4b942]"
+              />
+            </div>
+          </div>
+        </StatCard>
+        <StatCard title='Daily Earnings'>
+          <div className="mt-1 flex items-center justify-between">
+            <div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-[20px] font-bold">
+                  {dailyEarning}
+                </span>
+              </div>
+
+              <div className="mt-1 flex items-center gap-1 text-[8px] text-gray-500">
+                {dailyEarningTrend ? (
+                  dailyEarningTrend.isIncrease ? (
+                    <TrendingUp size={9} className="text-green-600" />
+                  ) : (
+                    <TrendingDown size={9} className="text-red-600" />
+                  )
+                ) : null}
+                <span>
+                  {dailyEarningTrend
+                    ? `${dailyEarningTrend.percentage.toFixed(1)}% vs previous day`
+                    : "No previous day data"}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#eff8f1]">
+              <FaRegMoneyBillAlt
+                size={13}
+                className="fill-[#f4b942] text-[#f4b942]"
+              />
+            </div>
+          </div>
+        </StatCard>
+        <StatCard title='Pending Settlement'>
+          <div className="mt-1 flex items-center justify-between">
+            <div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-[20px] font-bold">
+                  {pendingSettlement}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#eff8f1]">
+              <MdOutlinePendingActions
+                size={13}
+                className="fill-[#f4b942] text-[#f4b942]"
+              />
+            </div>
+          </div>
+        </StatCard>
+        <StatCard title='Refunds'>
+          <div className="mt-1 flex items-center justify-between">
+            <div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-[20px] font-bold">
+                  {refunds}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#eff8f1]">
+              <MdOutlinePendingActions
+                size={13}
+                className="fill-[#f4b942] text-[#f4b942]"
+              />
+            </div>
+          </div>
+        </StatCard>
       </div>
-
 
       <div className="mt-10 bg-white border border-gray-300 rounded-lg py-4 ">
 
@@ -211,7 +260,7 @@ export default function Payment() {
         <ReusableTable
           isLoading={false}
           error={null}
-          data={data}
+          data={paymentRows}
           columns={columns}
           currentPage={1}
           totalPages={5}
