@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { assets } from "../assets/assets";
 import { ImSpoonKnife } from "react-icons/im";
 import { FaMoneyCheck, FaUser } from "react-icons/fa";
+import { BsShop } from "react-icons/bs";
 
 
 interface LeftNavProps {
@@ -30,6 +31,11 @@ const LeftNav: React.FC<LeftNavProps> = ({ setIsExpanded }) => {
       name: "Menu",
       path: "/dashboard/menu",
       icon: <ImSpoonKnife />,
+    },
+    {
+      name: "Mini-mart",
+      path: "/dashboard/minimart",
+      icon: <BsShop />,
     },
     {
       name: "Customers",

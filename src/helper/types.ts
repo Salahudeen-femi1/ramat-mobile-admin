@@ -119,8 +119,9 @@ export interface PaginationControlProps {
   tableType?: string;
 }
 
- interface MenuItem {
-  id: string;
+export interface MenuItem {
+  id?: string | number;
+  _id?: string | number;
   name: string;
   category: string;
   image: string;
@@ -128,14 +129,31 @@ export interface PaginationControlProps {
   featured?: boolean;
   available: boolean;
   soldOut?: boolean;
-  items: string;
+  items?: string;
+  description?: string;
+  preparationTime?: number;
+}
+
+export interface Minimart {
+  id?: string | number;
+  _id?: string | number;
+  name: string;
+  category: string;
+  image: string;
+  price: number;
+  featured?: boolean;
+  available: boolean;
+  soldOut?: boolean;
+  items?: string;
+  description?: string;
+  preparationTime?: number;
 }
 
 export interface MenuResponse {
   success: boolean;
   message: string;
-  id: string 
-  _id: string | number
+  id: string ;
+  _id: string | number;
   items: MenuItem[];
 }
 

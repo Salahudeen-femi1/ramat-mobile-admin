@@ -12,7 +12,7 @@ import {
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CreateMealPayload, MenuItem, ModifierGroup } from "../helper/types";
-import { createMeal, editMealData } from "../service/apiService";
+import { createMartItems, createMeal, editMealData } from "../service/apiService";
 import Modal from "./Modal";
 import { toast } from "sonner";
 
@@ -22,14 +22,14 @@ interface modalProps {
   editingItem?: MenuItem;
 }
 
-const MenuModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
+const MartModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
   const queryClient = useQueryClient();
 
   const mealSchema = Yup.object({
     name: Yup.string()
       .trim()
-      .required("Meal name is required")
-      .min(2, "Meal name must be at least 2 characters"),
+      .required("Item name is required")
+      .min(2, "Item name must be at least 2 characters"),
 
     description: Yup.string()
       .trim()
@@ -112,7 +112,7 @@ const MenuModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
   // CREATE / UPDATE MEAL
 
   const createMealMutation = useMutation({
-    mutationFn: createMeal,
+    mutationFn: createMartItems,
 
     onSuccess: () => {
       formik.resetForm();
@@ -999,4 +999,4 @@ const MenuModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
   );
 };
 
-export default MenuModal;
+export default MartModal;

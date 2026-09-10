@@ -13,6 +13,7 @@ import Settings from './pages/Settings'
 import ViewMenu from './pages/ViewMenu'
 import Login from './pages/auth/Login'
 import { useUser } from './context/UserContext'
+import Minimart from './pages/Minimart'
 
 function App() {
   const { loading } = useUser()
@@ -52,6 +53,15 @@ function App() {
             <MainLayout
               child={<Orders isRecent={true} />}
               heading='Orders'
+            />
+          }
+        />
+        <Route
+          path='/dashboard/minimart'
+          element={
+            <MainLayout
+              child={<Minimart/>}
+              heading='Minimart'
             />
           }
         />

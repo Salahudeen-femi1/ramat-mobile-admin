@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteCustomer, getAverageRating, getRating, updateMenuAvailability } from "./apiService";
+import { deleteCustomer, deleteMeal, editMealData, getAverageRating, getRating, updateMenuAvailability } from "./apiService";
 import { toast } from "sonner";
 import { getPaymenntHistory } from '../service/apiService';
 import type { PaymentHistoryResponse, PaymentTransaction } from "../helper/types";
@@ -52,6 +52,33 @@ export const useDeleteCustomerMutation = () => {
     },
   })
 }
+
+export const useDeleteMenu = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteMeal,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["meal"],
+      });
+      toast.success("Meal deleted successfully");
+    },
+  })
+}
+
+export const useEditMenu = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: editMealData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["fetchedItems"],
+      });
+      toast.success("Meal updated successfully");
+    },
+  });
+};
 
 export const useAverageRating = () => {
   return useQuery({

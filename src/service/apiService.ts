@@ -1,6 +1,35 @@
 import api from "../helper/axios";
 import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, MenuItem, orderData } from "../helper/types";
 
+export const createMartItems = async (
+  payload: CreateMealPayload
+) => {
+  const formData = new FormData();
+
+  formData.append("name", payload.name);
+  formData.append("description", payload.description);
+  formData.append("category", payload.category);
+  formData.append("price", String(payload.price));
+  formData.append(
+    "availableForOrder",
+    String(payload.availableForOrder)
+  );
+  formData.append("preparationTime", String(payload.preparationTime ?? ""));
+  formData.append("trackInventory", String(payload.trackInventory));
+  formData.append("modifierGroups", JSON.stringify(payload.modifierGroups));
+  if (payload.image) {
+    formData.append("image", payload.image) ;
+  }
+
+  const response = await api.post("/mart/create", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  console.log(response)
+
+  return response.data;
+};
 export const createMeal = async (
   payload: CreateMealPayload
 ) => {
@@ -26,6 +55,7 @@ export const createMeal = async (
       "Content-Type": "multipart/form-data",
     },
   });
+  console.log(response)
 
   return response.data;
 };
@@ -38,6 +68,11 @@ export const getOrders = async (params?: Record<string, unknown>): Promise<order
 export const getMenu = async (): Promise<MenuItem[]> => {
   const response = await api.get('/menu')
   return response.data;
+}
+
+export const getMart = async (): Promise<MenuItem[]> => {
+  const response = await api.get('/market')
+  return response.data.items;
 }
 
 export const getCategories = async (category: string): Promise<{ data: Category }> => {
@@ -74,6 +109,44 @@ export const getCustomers = async () => {
 
 export const deleteCustomer = async (customerId: string | number): Promise<any> => {
   const response = await api.delete(`/user/${customerId}`);
+  return response.data;
+}
+
+export const deleteMeal = async (menuId: string | number): Promise<any> => {
+  const response = await api.delete(`/menu/${menuId}`);
+  return response.data;
+}
+
+export const editMealData = async ({
+  menuId,
+  payload,
+}: {
+  menuId: string | number;
+  payload: CreateMealPayload;
+}): Promise<any> => {
+  const formData = new FormData();
+
+  formData.append("name", payload.name);
+  formData.append("description", payload.description);
+  formData.append("category", payload.category);
+  formData.append("price", String(payload.price));
+  formData.append(
+    "availableForOrder",
+    String(payload.availableForOrder)
+  );
+  formData.append("preparationTime", String(payload.preparationTime ?? ""));
+  formData.append("trackInventory", String(payload.trackInventory));
+  formData.append("modifierGroups", JSON.stringify(payload.modifierGroups));
+  if (payload.image) {
+    formData.append("image", payload.image);
+  }
+
+  const response = await api.put(`/menu/${menuId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
   return response.data;
 }
 
