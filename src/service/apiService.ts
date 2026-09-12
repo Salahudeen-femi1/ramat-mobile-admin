@@ -1,5 +1,5 @@
 import api from "../helper/axios";
-import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, MenuItem, orderData } from "../helper/types";
+import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, MenuItem, MenuResponse, orderData } from "../helper/types";
 
 export const createMartItems = async (
   payload: CreateMealPayload
@@ -21,7 +21,7 @@ export const createMartItems = async (
     formData.append("image", payload.image) ;
   }
 
-  const response = await api.post("/mart/create", formData, {
+  const response = await api.post("/market/create", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -67,11 +67,13 @@ export const getOrders = async (params?: Record<string, unknown>): Promise<order
 
 export const getMenu = async (): Promise<MenuItem[]> => {
   const response = await api.get('/menu')
-  return response.data;
+  console.log("menu response.data", response.data)
+  return response.data.items;
 }
 
 export const getMart = async (): Promise<MenuItem[]> => {
   const response = await api.get('/market')
+  console.log("mart response.data", response.data)
   return response.data.items;
 }
 

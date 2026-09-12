@@ -1,5 +1,4 @@
 import type { IconType } from "react-icons/lib";
-import { menuItems } from "./data";
 
 export interface OrderProps {
   id: string;
@@ -243,6 +242,18 @@ export interface ModifierGroup {
   multiple: boolean;
 }
 
+export interface CreateMealPayload {
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  image?: File | null;
+  availableForOrder: boolean;
+  preparationTime?: string | number;
+  trackInventory: boolean;
+  modifierGroups: ModifierGroup[];
+}
+
 export interface AdminLoginProps {
   email: string;
   pin: string;
@@ -258,18 +269,6 @@ export interface AdminLoginResponse {
         email: string;
         role: string;
     };
-}
-
-export interface CreateMealPayload {
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  image?: File | null;
-  availableForOrder: boolean;
-  preparationTime?: string | number;
-  trackInventory: boolean;
-  modifierGroups: ModifierGroup[];
 }
 
 export interface Category {

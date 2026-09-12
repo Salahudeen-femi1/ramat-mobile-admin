@@ -12,7 +12,7 @@ import {
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CreateMealPayload, MenuItem, ModifierGroup } from "../helper/types";
-import { createMartItems, createMeal, editMealData } from "../service/apiService";
+import { createMartItems, editMealData } from "../service/apiService";
 import Modal from "./Modal";
 import { toast } from "sonner";
 
@@ -125,7 +125,7 @@ const MartModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
       }
 
       void queryClient.invalidateQueries({ queryKey: ["fetchedItems"] });
-      toast.success("Meal created successfully");
+      toast.success("Mart item created successfully");
       onClose();
     },
 
@@ -312,13 +312,12 @@ const MartModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
 
   // SELECT CATEGOR
   const categories = [
-    { _id: "1", name: "Amala" },
-    { _id: "2", name: "Rice" },
-    { _id: "3", name: "Okele" },
+    { _id: "1", name: "Fruit" },
+    { _id: "2", name: "Shawarma" },
   ];
 
   const selectedCategory = categories.find(
-    (category) => category._id === formik.values.category
+    (category) => category.name === formik.values.category
   );
 
   return (
@@ -330,7 +329,7 @@ const MartModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
           <div className="flex items-center gap-2 text-[12px]">
 
             <span className="font-semibold text-[#263346]">
-              Add New Meal
+              Add New Mart
             </span>
           </div>
 
@@ -474,7 +473,7 @@ const MartModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
                             onClick={() => {
                               formik.setFieldValue(
                                 "category",
-                                category._id
+                                category.name
                               );
                               setShowCategoryDropdown(false);
                             }}

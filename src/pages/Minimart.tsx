@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import MenuCard from "../card/MenuCard";
-import MenuModal from "../modal/MenuModal";
+import MartModal from "../modal/MartModal";
 import { useQuery } from "@tanstack/react-query";
 import { getMart } from "../service/apiService";
 import type { Minimart } from "../helper/types";
@@ -13,11 +13,13 @@ export default function Minimart() {
   const availabilityMutation = useAvailabilityMutation();
 
   const { data: minimart, isLoading, error: menuError } = useQuery<Minimart[]>({
-    queryKey: ["fetchedItems"],
+    queryKey: ["fetchedMart"],
     queryFn: getMart,
   });
 
-  const items = Array.isArray(minimart?.items) ? minimart.items : [];
+  console.log("minimart", minimart)
+
+  const items = Array.isArray(minimart) ? minimart : [];
 
   const handleToggleAvailability = (itemId: string, available: boolean) => {
     availabilityMutation.mutate({ itemId, available });
@@ -80,7 +82,7 @@ export default function Minimart() {
 
       {
         showModal && (
-          <MenuModal onClose={() => setShowModal(false)} />
+          <MartModal onClose={() => setShowModal(false)} />
         )
       }
     </>

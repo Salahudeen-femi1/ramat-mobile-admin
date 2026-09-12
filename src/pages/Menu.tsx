@@ -13,7 +13,7 @@ export default function Menu() {
   const availabilityMutation = useAvailabilityMutation();
 
   const { data: menuResponse, isLoading, error: menuError } = useQuery<MenuResponse[]>({
-    queryKey: ["fetchedItems"],
+    queryKey: ["fetchedMarket"],
     queryFn: getMenu,
   });
 

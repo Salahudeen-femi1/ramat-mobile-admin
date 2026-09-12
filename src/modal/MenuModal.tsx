@@ -318,7 +318,7 @@ const MenuModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
   ];
 
   const selectedCategory = categories.find(
-    (category) => category._id === formik.values.category
+    (category) => category.name === formik.values.category
   );
 
   return (
@@ -474,7 +474,7 @@ const MenuModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
                             onClick={() => {
                               formik.setFieldValue(
                                 "category",
-                                category._id
+                                category.name
                               );
                               setShowCategoryDropdown(false);
                             }}
