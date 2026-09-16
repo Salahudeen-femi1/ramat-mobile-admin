@@ -1,19 +1,16 @@
-import React from 'react'
 import { Bar, BarChart, Tooltip, XAxis } from 'recharts'
+import type { WeeklyChartItem } from '../helper/types'
 
-const MarketerSalesPerformanceChart: React.FC = () => {
+interface weeklyChartProps{
+  data: WeeklyChartItem[]
+}
+
+const MarketerSalesPerformanceChart = ({ data }: weeklyChartProps) => {
   return (
     <BarChart
       width={550}
       height={240}
-      data={[
-        { name: 'Mon', uv: 1000 },
-        { name: 'Tue', uv: 2000 },
-        { name: 'Wed', uv: 3000 },
-        { name: 'Thu', uv: 4000 },
-        { name: 'Fri', uv: 4000 },
-        { name: 'Sat', uv: 1000 },
-      ]}
+      data={data}
     >
       {/* Gradient Definition */}
       <defs>
@@ -32,8 +29,8 @@ const MarketerSalesPerformanceChart: React.FC = () => {
         stackId="a"
         fill="url(#customGradient)"
         activeBar={{ stroke: 'black', strokeWidth: 7 }}
-        />
-                  <XAxis dataKey="name" niceTicks="snap125" />
+      />
+      <XAxis dataKey="name" niceTicks="snap125" />
 
       {/* <RechartsDevtools /> */}
     </BarChart>

@@ -1,10 +1,17 @@
 import api from "../helper/axios";
-import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, MenuItem, MenuResponse, orderData } from "../helper/types";
+import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, MenuItem, MenuResponse, orderData, OverviewResponse } from "../helper/types";
+
+const serializeExtras = (payload: CreateMealPayload) => {
+  const groups = payload.extras?.length ? payload.extras : payload.modifierGroups ?? [];
+  return JSON.stringify(groups);
+};
 
 export const createMartItems = async (
   payload: CreateMealPayload
 ) => {
   const formData = new FormData();
+
+  const extras = serializeExtras(payload);
 
   formData.append("name", payload.name);
   formData.append("description", payload.description);
@@ -16,9 +23,10 @@ export const createMartItems = async (
   );
   formData.append("preparationTime", String(payload.preparationTime ?? ""));
   formData.append("trackInventory", String(payload.trackInventory));
-  formData.append("modifierGroups", JSON.stringify(payload.modifierGroups));
+  formData.append("extras", extras);
+  formData.append("modifierGroups", extras);
   if (payload.image) {
-    formData.append("image", payload.image) ;
+    formData.append("image", payload.image);
   }
 
   const response = await api.post("/market/create", formData, {
@@ -26,14 +34,17 @@ export const createMartItems = async (
       "Content-Type": "multipart/form-data",
     },
   });
-  console.log(response)
+  console.log(response);
 
   return response.data;
 };
+
 export const createMeal = async (
   payload: CreateMealPayload
 ) => {
   const formData = new FormData();
+
+  const extras = serializeExtras(payload);
 
   formData.append("name", payload.name);
   formData.append("description", payload.description);
@@ -45,9 +56,10 @@ export const createMeal = async (
   );
   formData.append("preparationTime", String(payload.preparationTime ?? ""));
   formData.append("trackInventory", String(payload.trackInventory));
-  formData.append("modifierGroups", JSON.stringify(payload.modifierGroups));
+  formData.append("extras", extras);
+  formData.append("modifierGroups", extras);
   if (payload.image) {
-    formData.append("image", payload.image) ;
+    formData.append("image", payload.image);
   }
 
   const response = await api.post("/menu/create", formData, {
@@ -62,7 +74,7 @@ export const createMeal = async (
 
 export const getOrders = async (params?: Record<string, unknown>): Promise<orderData[]> => {
   const response = await api.get('/orders', { params });
-  return response.data.data ?? [];
+  return response.data.orders ?? [];
 };
 
 export const getMenu = async (): Promise<MenuItem[]> => {
@@ -105,8 +117,8 @@ export const updateMenuAvailability = async ({
 };
 
 export const getCustomers = async () => {
-  const response = await api.get("/user")
-  return response.data.data;
+  const response = await api.get("/user/dashboard")
+  return response.data.user;
 }
 
 export const deleteCustomer = async (customerId: string | number): Promise<any> => {
@@ -128,6 +140,8 @@ export const editMealData = async ({
 }): Promise<any> => {
   const formData = new FormData();
 
+  const extras = serializeExtras(payload);
+
   formData.append("name", payload.name);
   formData.append("description", payload.description);
   formData.append("category", payload.category);
@@ -138,7 +152,8 @@ export const editMealData = async ({
   );
   formData.append("preparationTime", String(payload.preparationTime ?? ""));
   formData.append("trackInventory", String(payload.trackInventory));
-  formData.append("modifierGroups", JSON.stringify(payload.modifierGroups));
+  formData.append("extras", extras);
+  formData.append("modifierGroups", extras);
   if (payload.image) {
     formData.append("image", payload.image);
   }
@@ -183,5 +198,10 @@ export const getRating = async () => {
 
 export const getPaymenntHistory = async () => {
   const response = await api.get('')
+  return response.data
+}
+
+export const getOverview = async (): Promise<OverviewResponse> => {
+  const response = await api.get('/admin/overview')
   return response.data
 }

@@ -1,7 +1,10 @@
-import { reviews } from '../helper/data'
 import ReviewCard from '../card/ReviewCard'
+import { useStats } from '../service/helper'
 
 export default function RecentReviews() {
+
+  const { recentReviews } = useStats()
+
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
 
@@ -17,7 +20,7 @@ export default function RecentReviews() {
 
       <div className="space-y-5">
 
-        {reviews.map(review => (
+        {recentReviews.map(review => (
           <ReviewCard
             key={review.id}
             review={review}

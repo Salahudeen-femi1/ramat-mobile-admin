@@ -94,8 +94,6 @@ export default function Payment() {
     },
   ];
 
- 
-
   return (
     <>
       <div className="flex justify-between items-center">

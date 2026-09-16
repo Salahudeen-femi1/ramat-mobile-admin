@@ -2,7 +2,7 @@ import type { IconType } from "react-icons/lib";
 
 export interface OrderProps {
   id: string;
-  icon: IconType;
+  icon: React.ReactNode;
   items: number;
   source: string;
   status: "Ready" | "Processing" | "Pending";
@@ -131,6 +131,8 @@ export interface MenuItem {
   items?: string;
   description?: string;
   preparationTime?: number;
+  extras?: ModifierGroup[];
+  modifierGroups?: ModifierGroup[];
 }
 
 export interface Minimart {
@@ -252,6 +254,7 @@ export interface CreateMealPayload {
   preparationTime?: string | number;
   trackInventory: boolean;
   modifierGroups: ModifierGroup[];
+  extras?: ModifierGroup[];
 }
 
 export interface AdminLoginProps {
@@ -285,4 +288,66 @@ export interface UserProps {
 export interface DietaryTag {
   _id: string;
   name: string;
+}
+
+// interfaces/overview.ts
+
+export interface OverviewMetrics {
+  ordersToday: number;
+  activeOrders: number;
+  readyForPickup: number;
+  completedOrders: number;
+  revenueToday: number;
+  revenueTodayFormatted: string;
+  monthlyRevenue: number;
+  monthlyRevenueFormatted: string;
+  totalCustomers: number;
+}
+
+export interface WeeklyChartItem {
+  day: string;
+  orders: number;
+  revenue: number;
+  date: string;
+}
+
+export interface NewRegistration {
+  id: string;
+  name: string;
+  initials: string;
+  email: string;
+  phone: string;
+  joinedAgo: string;
+  createdAt: string;
+}
+
+export interface RecentOrder {
+  id: string;
+  orderNumber: string;
+  customerName: string;
+  amount: number;
+  status: string;
+  createdAt: string;
+}
+
+export interface RecentReviews {
+  id: string;
+  customerName: string;
+  rating: number;
+  review: string;
+}
+
+export interface OverviewResponse {
+  metrics: OverviewMetrics;
+  weeklyChart: WeeklyChartItem[];
+  recentOrders: RecentOrder[];
+  newRegistrations: NewRegistration[];
+  recentReviews: RecentReviews[];
+}
+
+export interface ReviewProps {
+  id: number;
+  customer: string;
+  rating: number;
+  review: string;
 }

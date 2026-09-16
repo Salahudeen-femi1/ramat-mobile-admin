@@ -1,8 +1,8 @@
 import { ChevronRight } from "lucide-react";
-import type { RegistrationProps } from "../helper/types";
+import type { NewRegistration } from "../helper/types";
 
 interface Props {
-  customer: RegistrationProps;
+  customer: NewRegistration;
 }
 
 export default function RegistrationCard({
@@ -23,7 +23,7 @@ export default function RegistrationCard({
           </h3>
 
           <p className="text-gray-500 text-xs">
-            Joined {customer.joined}
+            {customer.joinedAgo}
           </p>
         </div>
 

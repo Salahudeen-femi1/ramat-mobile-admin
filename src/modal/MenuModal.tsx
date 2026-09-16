@@ -176,7 +176,8 @@ const MenuModal = ({ onClose, mode = "create", editingItem }: modalProps) => {
       image: null,
       availableForOrder: editingItem?.available ?? true,
       trackInventory: false,
-      modifierGroups: [],
+      modifierGroups: editingItem?.extras ?? editingItem?.modifierGroups ?? [],
+      extras: editingItem?.extras ?? editingItem?.modifierGroups ?? [],
     },
 
     validationSchema: mealSchema,

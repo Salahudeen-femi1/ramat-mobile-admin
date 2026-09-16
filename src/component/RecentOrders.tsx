@@ -1,8 +1,29 @@
+import { useEffect } from 'react'
 import OrderCard from '../card/OrderCard'
-import { recentOrders, registrations } from '../helper/data'
 import RegistrationCard from '../card/RegistrationCard'
+import { useStats } from '../service/helper'
+import { toast } from 'sonner'
 
 export default function RecentOrders() {
+
+    const { recentOrders, newRegistrations, isLoading, isError: error } = useStats()
+
+    useEffect(() => {
+        if (error) {
+            const message = (error as any).response?.data?.message || "An error occurred while fetching customers.";
+
+            toast.error(message);
+        }
+    }, [error])
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-gray-500 text-sm">Loading...</p>
+            </div>
+        )
+    }
+
     return (
         <>
             <div className="bg-white rounded-2xl shadow-sm p-6">
@@ -27,7 +48,7 @@ export default function RecentOrders() {
                     </h2>
 
                     <div className="space-y-3 overflow-y-auto max-h-[200px] styled-scrollbar">
-                        {registrations.map(customer => (
+                        {newRegistrations.map(customer => (
                             <RegistrationCard
                                 key={customer.id}
                                 customer={customer}

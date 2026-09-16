@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteCustomer, deleteMeal, editMealData, getAverageRating, getRating, updateMenuAvailability } from "./apiService";
+import { deleteCustomer, deleteMeal, editMealData, getAverageRating, getOverview, getRating, updateMenuAvailability } from "./apiService";
 import { toast } from "sonner";
 import { getPaymenntHistory } from '../service/apiService';
-import type { PaymentHistoryResponse, PaymentTransaction } from "../helper/types";
+import type { OverviewResponse, PaymentHistoryResponse, PaymentTransaction } from "../helper/types";
 
 interface Review {
   id: number;
@@ -140,5 +140,21 @@ export const usePaymentHistory = () => {
     pendingSettlement: query.data?.pending_settlement ?? 0,
     refunds: query.data?.refunds ?? 0,
     dailyEarningTrend,
+  };
+};
+
+export const useStats = () => {
+  const statsQuery = useQuery({
+    queryKey: ["overview"],
+    queryFn: getOverview,
+  });
+
+  return {
+    ...statsQuery,
+    metrics: statsQuery.data?.metrics,
+    weeklyChart: statsQuery.data?.weeklyChart ?? [],
+    recentOrders: statsQuery.data?.recentOrders ?? [],
+    newRegistrations: statsQuery.data?.newRegistrations ?? [],
+    recentReviews: statsQuery.data?.recentReviews ?? [],
   };
 };
