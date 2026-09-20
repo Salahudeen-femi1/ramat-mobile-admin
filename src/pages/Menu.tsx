@@ -4,7 +4,7 @@ import MenuCard from "../card/MenuCard";
 import MenuModal from "../modal/MenuModal";
 import { useQuery } from "@tanstack/react-query";
 import { getMenu } from "../service/apiService";
-import type { MenuResponse } from "../helper/types";
+import type { MenuItem } from "../helper/types";
 import { toast } from "sonner";
 import { useAvailabilityMutation } from "../service/helper";
 
@@ -12,12 +12,10 @@ export default function Menu() {
   const [showModal, setShowModal] = useState(false);
   const availabilityMutation = useAvailabilityMutation();
 
-  const { data: menuResponse, isLoading, error: menuError } = useQuery<MenuResponse[]>({
+  const { data: items = [], isLoading, error: menuError } = useQuery({
     queryKey: ["fetchedMarket"],
     queryFn: getMenu,
   });
-
-  const items = Array.isArray(menuResponse?.items) ? menuResponse.items : [];
 
   const handleToggleAvailability = (itemId: string, available: boolean) => {
     availabilityMutation.mutate({ itemId, available });
@@ -65,9 +63,9 @@ export default function Menu() {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-10 ">
-            {items.map((item: MenuResponse) => (
+            {items.map((item: MenuItem) => (
               <MenuCard
-                key={item.id ?? item._id}
+                key={item.id}
                 item={item}
                 onToggleAvailability={(available) =>
                   handleToggleAvailability(item.id, available)

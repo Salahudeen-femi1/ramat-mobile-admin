@@ -1,5 +1,5 @@
 import api from "../helper/axios";
-import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, MenuItem, MenuResponse, orderData, OverviewResponse } from "../helper/types";
+import type { AdminLoginProps, AdminLoginResponse, Category, CreateMealPayload, DashboardData, MenuItem, MenuResponse, orderData, OverviewResponse } from "../helper/types";
 
 const serializeExtras = (payload: CreateMealPayload) => {
   const groups = payload.extras?.length ? payload.extras : payload.modifierGroups ?? [];
@@ -85,7 +85,7 @@ export const getMenu = async (): Promise<MenuItem[]> => {
 
 export const getMart = async (): Promise<MenuItem[]> => {
   const response = await api.get('/market')
-  console.log("mart response.data", response.data)
+  // console.log("mart response.data", response.data)
   return response.data.items;
 }
 
@@ -116,15 +116,37 @@ export const updateMenuAvailability = async ({
   return response.data;
 };
 
-export const getCustomers = async () => {
+export const getCustomers = async (): Promise<DashboardData> => {
   const response = await api.get("/user/dashboard")
-  return response.data.user;
+  console.log(response.data)
+  return response.data;
+}
+export const getCustomerDetails = async (customerId: string | number) => {
+  const response = await api.get(`/user/${customerId}`);
+  return response.data.data;
 }
 
 export const deleteCustomer = async (customerId: string | number): Promise<any> => {
   const response = await api.delete(`/user/${customerId}`);
   return response.data;
 }
+
+export const getOrderById = async (
+  orderId: string
+) => {
+  const response = await api.get(`/orders/${orderId}`);
+
+  return response.data.order;
+};
+
+export const updateOrderTrack = async (orderId: string, status: string) => {
+  const response = await api.patch(`/orders/${orderId}/status`,
+    {
+      status
+    });
+
+  return response.data;
+};
 
 export const deleteMeal = async (menuId: string | number): Promise<any> => {
   const response = await api.delete(`/menu/${menuId}`);
@@ -165,11 +187,6 @@ export const editMealData = async ({
   });
 
   return response.data;
-}
-
-export const getCustomerDetails = async (customerId: string | number) => {
-  const response = await api.get(`/user/${customerId}`);
-  return response.data.data;
 }
 
 export const getAverageRating = async () => {

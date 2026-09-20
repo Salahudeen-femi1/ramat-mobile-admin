@@ -17,6 +17,14 @@ export default function Customers() {
   const [selectedCustomer, setSelectedCustomer] = React.useState<any>(null);
   const deleteCustomerMutation = useDeleteCustomerMutation();
 
+  const { data, isLoading, error: customerError } = useQuery({
+    queryKey: ["customers"],
+    queryFn: getCustomers
+  })
+  console.log("users:", data)
+  const customers = data?.customers ?? [];
+
+
   const columns = [
     {
       label: "FIRST NAME",
@@ -89,11 +97,6 @@ export default function Customers() {
     })
   }
 
-  const { data: customers = [], isLoading, error: customerError } = useQuery({
-    queryKey: ["customers"],
-    queryFn: getCustomers
-  })
-
   useEffect(() => {
     if (customerError) {
       const message = (customerError as any).response?.data?.message || "An error occurred while fetching customers.";
@@ -105,7 +108,7 @@ export default function Customers() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-gray-500 text-sm">Loading menu items...</p>
+        <p className="text-gray-500 text-sm">Loading customers...</p>
       </div>
     )
   }
@@ -116,7 +119,7 @@ export default function Customers() {
         <div>
           <h3 className="font-semibold">Orders</h3>
           <p className="text-sm text-gray-500">
-            Manage and track your most loyal diners
+            Manage and track your most loyal customers
           </p>
         </div>
         <div className='flex gap-4 items-center '>

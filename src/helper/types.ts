@@ -69,10 +69,10 @@ export interface Payment {
 
 export interface OrderStatus {
   value:
-    | "Received"
-    | "In Kitchen"
-    | "Ready"
-    | "Picked Up";
+  | "Received"
+  | "In Kitchen"
+  | "Ready"
+  | "Picked Up";
 }
 
 export interface orderData {
@@ -153,7 +153,7 @@ export interface Minimart {
 export interface MenuResponse {
   success: boolean;
   message: string;
-  id: string ;
+  id: string;
   _id: string | number;
   items: MenuItem[];
 }
@@ -263,15 +263,15 @@ export interface AdminLoginProps {
 }
 
 export interface AdminLoginResponse {
-    token: string;
-    message: string;
-    user: {
-        id: string;
-        first_name: string;
-        last_name: string;
-        email: string;
-        role: string;
-    };
+  token: string;
+  message: string;
+  user: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    role: string;
+  };
 }
 
 export interface Category {
@@ -350,4 +350,46 @@ export interface ReviewProps {
   customer: string;
   rating: number;
   review: string;
+}
+
+export interface DashboardUser {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  gender: "male" | "female" | "other";
+  role: "admin" | "user";
+  createdAt: string;
+}
+
+export interface DashboardStats {
+  totalOrders: number;
+  totalSpent: number;
+  totalSpentFormatted: string;
+  activeOrdersCount: number;
+  unreadNotificationsCount: number;
+}
+
+export interface ActiveOrder {
+  // Add fields here when your API returns active orders
+  [key: string]: unknown;
+}
+
+export interface RecentOrder {
+  // Add fields here when your API returns recent orders
+  [key: string]: unknown;
+}
+
+export interface RecentNotification {
+  // Add fields here when your API returns notifications
+  [key: string]: unknown;
+}
+
+export interface DashboardData {
+  user: DashboardUser;
+  stats: DashboardStats;
+  activeOrders: ActiveOrder[];
+  recentOrders: RecentOrder[];
+  recentNotifications: RecentNotification[];
 }
